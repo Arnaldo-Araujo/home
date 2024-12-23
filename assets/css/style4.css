@@ -1,0 +1,39 @@
+/* Background */
+body {
+    background-color: #fdfbfb;
+    color: #3a3a3a;
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+header {
+    background-color: #ff6f61;
+    color: #fff;
+    text-align: center;
+    padding: 30px;
+}
+
+/* Sections */
+section {
+    background-color: #fff;
+    margin: 20px;
+    padding: 20px;
+    border-left: 5px solid #ff6f61;
+    border-radius: 5px;
+}
+
+/* Links */
+a {
+    color: #ff6f61;
+    text-decoration: none;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #3a3a3a;
+    color: #fff;
+}

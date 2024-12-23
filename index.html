@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Curriculum Arnaldo Junior</title>
-   <link rel="stylesheet" href="assets/css/style.css">
+   <!--<link rel="stylesheet" href="assets/css/style.css">-->
    <link rel="icon" type="image/png" href="assets/images/favicon.png">
 </head>
 <body>
@@ -77,6 +77,30 @@
     <footer>
         &copy; 2024 Arnaldo Junior. Todos os direitos reservados.
     </footer>
+    <script>
+        // Lista de arquivos CSS disponíveis
+        const cssFiles = [
+            "assets/css/style1.css",
+            "assets/css/style2.css",
+            "assets/css/style3.css",
+            "assets/css/style4.css",
+            "assets/css/style5.css",
+            "assets/css/style6.css"
+            
+        ];
+    
+        // Função para carregar um arquivo CSS aleatório
+        function loadRandomCSS() {
+            const randomIndex = Math.floor(Math.random() * cssFiles.length); // Seleciona um índice aleatório
+            const linkElement = document.createElement("link"); // Cria o elemento <link>
+            linkElement.rel = "stylesheet"; // Define o relacionamento como folha de estilo
+            linkElement.href = cssFiles[randomIndex]; // Define o arquivo CSS
+            document.head.appendChild(linkElement); // Adiciona o elemento ao <head> do documento
+        }
+    
+        // Carrega o CSS ao carregar a página
+        window.onload = loadRandomCSS;
+    </script>
 </body>
 </html>
 

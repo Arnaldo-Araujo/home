@@ -1,0 +1,38 @@
+/* Background */
+body {
+    background-color: #f8f4f9;
+    color: #444;
+    font-family: 'Lato', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+header {
+    background-color: #a29bfe;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Sections */
+section {
+    background-color: #dfe6e9;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Links */
+a {
+    color: #6c5ce7;
+    text-decoration: none;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #a29bfe;
+    color: #fff;
+}
