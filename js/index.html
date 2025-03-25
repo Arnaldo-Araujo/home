@@ -2,11 +2,14 @@
     <head>
     </head>
     
-    <body></body>
+    <body>
+        <h1>Bem vindo ao meu site</h1>
+        <p>Bem vindo ao meu jogo sobre java Script 2024</p>
+    </body>
 </html>
 <script>
     alert('Bem vindo ao Jogo');
-    let numeroSecreto = 4;
+    let numeroSecreto = 6;
 
     let chute = prompt("Escolha um numero aleatorio e tente acertar o número secreto");
 
@@ -14,6 +17,7 @@
         alert(`Isso ai, você acertou o numero secreto ${numeroSecreto}`);
     }
     else{
-        alert('Você errou :(')
+        alert('Você errou :(');
     }
+    document.querySelector('h1').textContent = "Java is Life"
 </script>
