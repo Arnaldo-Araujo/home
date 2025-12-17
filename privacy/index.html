@@ -2,6 +2,7 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Política de Privacidade – Apps I9Android</title>
     <style>
       body {
@@ -35,6 +36,38 @@
         margin: 40px 0;
       }
 
+      /* Language Toggle Styles */
+      .lang-switch {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      
+      .lang-btn {
+        padding: 8px 16px;
+        border: 1px solid #ccc;
+        background: #f9f9f9;
+        cursor: pointer;
+        border-radius: 4px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+      }
+
+      .lang-btn:hover {
+        background-color: #e0e0e0;
+      }
+
+      .lang-btn.active {
+        background: #2c3e50;
+        color: #fff;
+        border-color: #2c3e50;
+      }
+
+      .hidden {
+        display: none;
+      }
+
       /* Blocos de cada política */
       .policy-block {
         padding: 20px;
@@ -46,200 +79,520 @@
       .i9fute { background-color: #f0f7ff; }
       .boottime { background-color: #f5f0ff; }
       .dinheiru { background-color: #fffbe6; }
+      .biblioteca { background-color: #e8f5e9; } /* Nova classe para Biblioteca Guiar */
     </style>
+    <script>
+      function setLanguage(lang) {
+        // Alternar visibilidade dos conteúdos
+        document.querySelectorAll('.lang-content').forEach(el => el.classList.add('hidden'));
+        document.getElementById('content-' + lang).classList.remove('hidden');
+        
+        // Atualizar estado dos botões
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('btn-' + lang).classList.add('active');
+
+        // Atualizar atributo lang do html
+        document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en-US';
+      }
+    </script>
   </head>
   <body>
-    <h1>Política de Privacidade – Aplicativos I9Android</h1>
 
-    <p>
-      Esta página contém as políticas de privacidade específicas para os
-      aplicativos desenvolvidos por <strong>Arnaldo Junior (I9Android)</strong>,
-      publicados na Google Play Store.
-    </p>
+    <!-- Botões de Idioma -->
+    <div class="lang-switch">
+      <button id="btn-pt" class="lang-btn active" onclick="setLanguage('pt')">🇧🇷 Português</button>
+      <button id="btn-en" class="lang-btn" onclick="setLanguage('en')">🇺🇸 English</button>
+    </div>
 
-    <p>
-      Ao utilizar qualquer dos aplicativos da I9Android, você concorda com as práticas descritas nesta política, que poderão ser atualizadas conforme novas funcionalidades forem sendo integradas.
-    </p>
+    <!-- ===== CONTEÚDO EM PORTUGUÊS ===== -->
+    <div id="content-pt" class="lang-content">
+      <h1>Política de Privacidade – Aplicativos I9Android</h1>
 
-    <ul>
-      <li><a href="#i9brasileirao">Política de Privacidade – i9Brasileirão</a></li>
-      <li><a href="#i9fute">Política de Privacidade – i9Fute</a></li>
-      <li><a href="#boottime">Política de Privacidade – Boot Time</a></li>
-      <li><a href="#dinheiru">Política de Privacidade – DinheirU</a></li>
-    </ul>
+      <p>
+        Esta página contém as políticas de privacidade específicas para os
+        aplicativos desenvolvidos por <strong>Arnaldo Junior (I9Android)</strong>,
+        publicados na Google Play Store.
+      </p>
+
+      <p>
+        Ao utilizar qualquer dos aplicativos da I9Android, você concorda com as práticas descritas nesta política, que poderão ser atualizadas conforme novas funcionalidades forem sendo integradas.
+      </p>
+
+      <ul>
+        <li><a href="#i9brasileirao">Política de Privacidade – i9Brasileirão</a></li>
+        <li><a href="#i9fute">Política de Privacidade – i9Fute</a></li>
+        <li><a href="#boottime">Política de Privacidade – Boot Time</a></li>
+        <li><a href="#dinheiru">Política de Privacidade – DinheirU</a></li>
+        <li><a href="#biblioteca">Política de Privacidade – Biblioteca Guiar</a></li>
+      </ul>
+      <hr />
+
+      <!-- i9Brasileirão -->
+      <div class="policy-block brasileirao" id="i9brasileirao">
+        <h2>Política de Privacidade – i9Brasileirão</h2>
+        <p><strong>Desenvolvedor:</strong> Arnaldo Junior (I9Android)</p>
+
+        <p>
+          O aplicativo <strong>i9Brasileirão</strong> utiliza serviços como Firebase
+          Authentication, Firebase Realtime Database e AdMob para oferecer
+          funcionalidades como login, atualização de dados em tempo real, e exibição
+          de anúncios. Este app substitui o i9Fute.
+        </p>
+
+        <h3>1. Coleta de Informações</h3>
+        <ul>
+          <li>Nome e email fornecidos no login;</li>
+          <li>Time de futebol escolhido pelo usuário;</li>
+          <li>Informações de uso e preferências no app.</li>
+        </ul>
+
+        <h3>2. Uso das Informações</h3>
+        <ul>
+          <li>Gerenciar sua conta e pontuação;</li>
+          <li>Exibir anúncios personalizados via AdMob (quando ativo);</li>
+          <li>Fornecer atualizações em tempo real de partidas e dados do futebol brasileiro;</li>
+          <li>Exibir notícias relacionadas ao futebol.</li>
+        </ul>
+      </div>
+
+      <!-- i9Fute -->
+      <div class="policy-block i9fute" id="i9fute">
+        <h2>Política de Privacidade – i9Fute</h2>
+        <p><strong>Desenvolvedor:</strong> Arnaldo Junior (I9Android)</p>
+
+        <p>
+          O aplicativo <strong>i9Fute</strong> utiliza serviços como Firebase
+          Authentication, Firebase Realtime Database e AdMob para oferecer
+          funcionalidades como login, atualização de dados em tempo real, e exibição
+          de anúncios.
+        </p>
+
+        <h3>1. Coleta de Informações</h3>
+        <ul>
+          <li>Nome e email fornecidos no login;</li>
+          <li>Time de futebol escolhido pelo usuário;</li>
+          <li>Informações de uso e preferências no app.</li>
+        </ul>
+
+        <h3>2. Uso das Informações</h3>
+        <ul>
+          <li>Gerenciar sua conta e pontuação;</li>
+          <li>Exibir anúncios personalizados via AdMob (quando ativo);</li>
+          <li>Fornecer atualizações em tempo real de partidas e dados do futebol brasileiro.</li>
+        </ul>
+
+        <h3>3. Permissões Solicitadas</h3>
+        <ul>
+          <li>Acesso à Internet e estado da rede;</li>
+          <li>Identificação do dispositivo para notificações e segurança.</li>
+        </ul>
+
+        <h3>4. Armazenamento e Segurança</h3>
+        <p>
+          Todos os dados são armazenados com segurança no Firebase, seguindo boas
+          práticas e criptografia.
+        </p>
+
+        <h3>5. Seus Direitos</h3>
+        <p>
+          Você pode solicitar a exclusão de sua conta e dados a qualquer momento
+          pelo e-mail:
+          <a href="mailto:arnaldo.araujo.dev@gmail.com">arnaldo.araujo.dev@gmail.com</a>.
+        </p>
+      </div>
+
+      <!-- Boot Time -->
+      <div class="policy-block boottime" id="boottime">
+        <h2>Política de Privacidade – Boot Time</h2>
+        <p><strong>Desenvolvedor:</strong> Arnaldo Junior (I9Android)</p>
+
+        <p>
+          O aplicativo <strong>Boot Time</strong> é um utilitário que monitora a
+          reinicialização do dispositivo para exibir informações úteis ao usuário.
+          Não exige login nem coleta dados sensíveis.
+        </p>
+
+        <h3>1. Coleta de Informações</h3>
+        <p>
+          O Boot Time <strong>não coleta informações pessoais identificáveis</strong>.
+          Apenas dados locais e estatísticas do próprio dispositivo são utilizados,
+          como horário do boot e tempo de inicialização.
+        </p>
+
+        <h3>2. Uso das Informações</h3>
+        <ul>
+          <li>Mostrar o tempo de boot do sistema;</li>
+          <li>Armazenar localmente as estatísticas de inicialização (sem envio à nuvem).</li>
+        </ul>
+
+        <h3>3. Permissões Solicitadas</h3>
+        <ul>
+          <li>Acesso ao estado do dispositivo;</li>
+          <li>Permissões de boot (para iniciar automaticamente após reinicialização).</li>
+        </ul>
+
+        <h3>4. Segurança</h3>
+        <p>
+          Como o aplicativo não coleta nem transmite dados pessoais, não há risco de
+          vazamento de informações. Todo processamento é feito localmente no aparelho.
+        </p>
+
+        <h3>5. Seus Direitos</h3>
+        <p>
+          Você pode desinstalar o aplicativo a qualquer momento. Nenhum dado é
+          mantido em servidores externos.
+        </p>
+      </div>
+
+      <!-- DinheirU -->
+      <div class="policy-block dinheiru" id="dinheiru">
+        <h2>Política de Privacidade – DinheirU</h2>
+        <p><strong>Desenvolvedor/Controlador:</strong> Arnaldo Junior (I9Android)</p>
+
+        <p>
+          O <strong>DinheirU</strong> é um aplicativo de <em>orçamento e controle financeiro em tempo real</em>,
+          permitindo lançamentos simultâneos por vários familiares em uma mesma família (ou de forma individual).
+        </p>
+
+        <h3>1. Serviços e Tecnologias Utilizadas</h3>
+        <ul>
+          <li>Firebase Authentication (login obrigatório);</li>
+          <li>Realtime Database e Cloud Firestore (dados);</li>
+          <li>Firebase Storage (comprovantes);</li>
+          <li>Firebase Functions (processos automáticos);</li>
+          <li>Firebase Analytics e Crashlytics (métricas e erros);</li>
+          <li>Firebase Cloud Messaging (notificações push);</li>
+          <li>Google AdMob (anúncios – banners e vídeos);</li>
+          <li>Google Play Billing (licença sem anúncios).</li>
+        </ul>
+
+        <h3>2. Dados que Coletamos</h3>
+        <ul>
+          <li>Nome e e-mail da conta;</li>
+          <li>Dados de lançamentos financeiros (valores, categorias, anexos);</li>
+          <li>Dados de uso e falhas (Analytics e Crashlytics);</li>
+          <li>Tokens de notificação (push);</li>
+          <li>Status de compra de licença (sem detalhes de cartão – processados pela Google).</li>
+        </ul>
+
+        <h3>3. Finalidade do Uso</h3>
+        <ul>
+          <li>Gerenciar contas e famílias;</li>
+          <li>Sincronizar gastos em tempo real;</li>
+          <li>Exibir anúncios (quando aplicável);</li>
+          <li>Permitir remoção de anúncios via licença;</li>
+          <li>Enviar notificações relevantes.</li>
+        </ul>
+
+        <h3>4. Armazenamento e Segurança</h3>
+        <ul>
+          <li>Criptografia em trânsito e repouso (TLS e Google Cloud);</li>
+          <li>Regras de segurança no Firebase garantindo acesso só a membros autorizados.</li>
+        </ul>
+
+        <h3>5. Seus Direitos</h3>
+        <p>
+          Você pode solicitar exclusão da sua conta e dados a qualquer momento pelo e-mail:
+          <a href="mailto:arnaldo.araujo.dev@gmail.com">arnaldo.araujo.dev@gmail.com</a>.
+        </p>
+      </div>
+
+      <!-- Biblioteca Guiar (NOVO APP) -->
+      <div class="policy-block biblioteca" id="biblioteca">
+        <h2>Política de Privacidade – Biblioteca Guiar</h2>
+        <p><strong>Desenvolvedor:</strong> Arnaldo Junior (I9Android)</p>
+        <p>
+          O aplicativo <strong>Biblioteca Guiar</strong> é uma solução completa para gerenciamento de biblioteca e controle de empréstimos, 
+          projetada para facilitar a organização de acervos e o acompanhamento de leitores.
+        </p>
+
+        <h3>1. Coleta de Dados Pessoais</h3>
+        <ul>
+            <li><strong>Cadastro:</strong> Nome Completo, E-mail e Senha.</li>
+            <li><strong>Identificação (CPF):</strong> O CPF é coletado e utilizado estritamente como chave única para controle de empréstimos e prevenção de fraudes, garantindo a integridade do sistema.</li>
+            <li><strong>Perfil:</strong> Foto de Perfil (Opcional), que o usuário pode enviar via câmera ou galeria.</li>
+            <li><strong>Comunicação:</strong> Mensagens de Chat podem ser armazenadas para fins de histórico de suporte.</li>
+        </ul>
+
+        <h3>2. Uso das Informações</h3>
+        <ul>
+            <li>Autenticação e gerenciamento de conta dos leitores;</li>
+            <li>Controle de empréstimos (Datas de retirada e devolução);</li>
+            <li>Identificação visual do usuário no sistema (Foto);</li>
+            <li>Histórico de atendimento e suporte via chat;</li>
+            <li>Segurança e prevenção de duplicidade de contas (via CPF).</li>
+        </ul>
+
+        <h3>3. Permissões Solicitadas</h3>
+        <ul>
+            <li><strong>Câmera e Galeria:</strong> Necessárias apenas se o usuário optar por fazer upload de uma foto de perfil.</li>
+            <li><strong>Internet/Rede:</strong> Para comunicação com os servidores do Firebase (sincronização de dados em tempo real).</li>
+        </ul>
+
+        <h3>4. Serviços e Armazenamento (Google Firebase)</h3>
+        <p>O aplicativo utiliza serviços seguros do Google:</p>
+        <ul>
+            <li><strong>Firebase Authentication:</strong> Para gestão segura de logins.</li>
+            <li><strong>Cloud Firestore:</strong> Banco de dados para armazenar informações de livros, empréstimos e usuários.</li>
+            <li><strong>Firebase Storage:</strong> Para armazenamento seguro da foto de perfil.</li>
+        </ul>
+
+        <h3>5. Exclusão de Dados</h3>
+        <p>
+            Respeitamos sua privacidade. O usuário possui uma opção dedicada dentro do app (no <strong>Menu Perfil</strong>) 
+            para <strong>excluir permanentemente sua conta</strong>. Esta ação remove todos os dados pessoais associados ao cadastro.
+        </p>
+
+        <h3>6. Contato</h3>
+        <p>
+          Dúvidas sobre privacidade podem ser enviadas para: 
+          <a href="mailto:arnaldo.araujo.dev@gmail.com">arnaldo.araujo.dev@gmail.com</a>.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- ===== ENGLISH CONTENT (TRANSLATED) ===== -->
+    <div id="content-en" class="lang-content hidden">
+      <h1>Privacy Policy – I9Android Apps</h1>
+
+      <p>
+        This page contains specific privacy policies for applications developed by <strong>Arnaldo Junior (I9Android)</strong>,
+        published on the Google Play Store.
+      </p>
+
+      <p>
+        By using any I9Android application, you agree to the practices described in this policy, which may be updated as new features are integrated.
+      </p>
+
+      <ul>
+        <li><a href="#i9brasileirao-en">Privacy Policy – i9Brasileirão</a></li>
+        <li><a href="#i9fute-en">Privacy Policy – i9Fute</a></li>
+        <li><a href="#boottime-en">Privacy Policy – Boot Time</a></li>
+        <li><a href="#dinheiru-en">Privacy Policy – DinheirU</a></li>
+        <li><a href="#biblioteca-en">Privacy Policy – Biblioteca Guiar</a></li>
+      </ul>
+      <hr />
+
+      <!-- i9Brasileirão (EN) -->
+      <div class="policy-block brasileirao" id="i9brasileirao-en">
+        <h2>Privacy Policy – i9Brasileirão</h2>
+        <p><strong>Developer:</strong> Arnaldo Junior (I9Android)</p>
+
+        <p>
+          The <strong>i9Brasileirão</strong> app uses services like Firebase
+          Authentication, Firebase Realtime Database, and AdMob to provide features
+          such as login, real-time data updates, and ad display. This app replaces i9Fute.
+        </p>
+
+        <h3>1. Information Collection</h3>
+        <ul>
+          <li>Name and email provided at login;</li>
+          <li>Soccer team chosen by the user;</li>
+          <li>Usage information and app preferences.</li>
+        </ul>
+
+        <h3>2. Use of Information</h3>
+        <ul>
+          <li>Manage your account and scoring;</li>
+          <li>Display personalized ads via AdMob (when active);</li>
+          <li>Provide real-time updates on matches and Brazilian soccer data;</li>
+          <li>Display soccer-related news.</li>
+        </ul>
+      </div>
+
+      <!-- i9Fute (EN) -->
+      <div class="policy-block i9fute" id="i9fute-en">
+        <h2>Privacy Policy – i9Fute</h2>
+        <p><strong>Developer:</strong> Arnaldo Junior (I9Android)</p>
+
+        <p>
+          The <strong>i9Fute</strong> app uses services like Firebase
+          Authentication, Firebase Realtime Database, and AdMob to provide features
+          such as login, real-time data updates, and ad display.
+        </p>
+
+        <h3>1. Information Collection</h3>
+        <ul>
+          <li>Name and email provided at login;</li>
+          <li>Soccer team chosen by the user;</li>
+          <li>Usage information and app preferences.</li>
+        </ul>
+
+        <h3>2. Use of Information</h3>
+        <ul>
+          <li>Manage your account and scoring;</li>
+          <li>Display personalized ads via AdMob (when active);</li>
+          <li>Provide real-time updates on matches and Brazilian soccer data.</li>
+        </ul>
+
+        <h3>3. Requested Permissions</h3>
+        <ul>
+          <li>Internet access and network state;</li>
+          <li>Device identification for notifications and security.</li>
+        </ul>
+
+        <h3>4. Storage and Security</h3>
+        <p>
+          All data is securely stored in Firebase, following best practices and encryption standards.
+        </p>
+
+        <h3>5. Your Rights</h3>
+        <p>
+          You can request the deletion of your account and data at any time by emailing:
+          <a href="mailto:arnaldo.araujo.dev@gmail.com">arnaldo.araujo.dev@gmail.com</a>.
+        </p>
+      </div>
+
+      <!-- Boot Time (EN) -->
+      <div class="policy-block boottime" id="boottime-en">
+        <h2>Privacy Policy – Boot Time</h2>
+        <p><strong>Developer:</strong> Arnaldo Junior (I9Android)</p>
+
+        <p>
+          The <strong>Boot Time</strong> app is a utility that monitors device reboots
+          to display useful information to the user. It does not require login or collect sensitive data.
+        </p>
+
+        <h3>1. Information Collection</h3>
+        <p>
+          Boot Time <strong>does not collect personally identifiable information</strong>.
+          Only local data and device statistics are used, such as boot time and startup duration.
+        </p>
+
+        <h3>2. Use of Information</h3>
+        <ul>
+          <li>Show system boot time;</li>
+          <li>Locally store startup statistics (no cloud upload).</li>
+        </ul>
+
+        <h3>3. Requested Permissions</h3>
+        <ul>
+          <li>Access to device state;</li>
+          <li>Boot permissions (to start automatically after reboot).</li>
+        </ul>
+
+        <h3>4. Security</h3>
+        <p>
+          Since the app does not collect or transmit personal data, there is no risk of
+          information leakage. All processing is done locally on the device.
+        </p>
+
+        <h3>5. Your Rights</h3>
+        <p>
+          You may uninstall the app at any time. No data is kept on external servers.
+        </p>
+      </div>
+
+      <!-- DinheirU (EN) -->
+      <div class="policy-block dinheiru" id="dinheiru-en">
+        <h2>Privacy Policy – DinheirU</h2>
+        <p><strong>Developer/Controller:</strong> Arnaldo Junior (I9Android)</p>
+
+        <p>
+          <strong>DinheirU</strong> is a <em>real-time budget and financial control</em> application,
+          allowing simultaneous entries by multiple family members in the same family group (or individually).
+        </p>
+
+        <h3>1. Services and Technologies Used</h3>
+        <ul>
+          <li>Firebase Authentication (mandatory login);</li>
+          <li>Realtime Database and Cloud Firestore (data);</li>
+          <li>Firebase Storage (receipts);</li>
+          <li>Firebase Functions (automatic processes);</li>
+          <li>Firebase Analytics and Crashlytics (metrics and errors);</li>
+          <li>Firebase Cloud Messaging (push notifications);</li>
+          <li>Google AdMob (ads – banners and videos);</li>
+          <li>Google Play Billing (ad-free license).</li>
+        </ul>
+
+        <h3>2. Data We Collect</h3>
+        <ul>
+          <li>Account Name and Email;</li>
+          <li>Financial entry data (values, categories, attachments);</li>
+          <li>Usage and crash data (Analytics and Crashlytics);</li>
+          <li>Notification tokens (push);</li>
+          <li>License purchase status (no card details – processed by Google).</li>
+        </ul>
+
+        <h3>3. Purpose of Use</h3>
+        <ul>
+          <li>Manage accounts and family groups;</li>
+          <li>Synchronize expenses in real-time;</li>
+          <li>Display ads (where applicable);</li>
+          <li>Enable ad removal via license;</li>
+          <li>Send relevant notifications.</li>
+        </ul>
+
+        <h3>4. Storage and Security</h3>
+        <ul>
+          <li>Encryption in transit and at rest (TLS and Google Cloud);</li>
+          <li>Security rules in Firebase ensuring access only to authorized members.</li>
+        </ul>
+
+        <h3>5. Your Rights</h3>
+        <p>
+          You can request the deletion of your account and data at any time by emailing:
+          <a href="mailto:arnaldo.araujo.dev@gmail.com">arnaldo.araujo.dev@gmail.com</a>.
+        </p>
+      </div>
+
+      <!-- Biblioteca Guiar (NEW APP - EN) -->
+      <div class="policy-block biblioteca" id="biblioteca-en">
+        <h2>Privacy Policy – Biblioteca Guiar</h2>
+        <p><strong>Developer:</strong> Arnaldo Junior (I9Android)</p>
+        <p>
+          The <strong>Biblioteca Guiar</strong> application is a complete solution for library management and loan control, 
+          designed to facilitate collection organization and reader tracking.
+        </p>
+
+        <h3>1. Personal Data Collection</h3>
+        <ul>
+            <li><strong>Registration:</strong> Full Name, Email, and Password.</li>
+            <li><strong>Identification (CPF/Tax ID):</strong> The CPF is collected and used strictly as a unique key for loan control and fraud prevention within the system.</li>
+            <li><strong>Profile:</strong> Profile Picture (Optional), which the user can upload via camera or gallery.</li>
+            <li><strong>Communication:</strong> Chat messages may be stored for support history purposes.</li>
+        </ul>
+
+        <h3>2. Use of Information</h3>
+        <ul>
+            <li>Authentication and reader account management;</li>
+            <li>Loan control (Check-out and check-in dates);</li>
+            <li>Visual identification of the user in the system (Photo);</li>
+            <li>Support history via chat;</li>
+            <li>Security and prevention of duplicate accounts (via CPF).</li>
+        </ul>
+
+        <h3>3. Requested Permissions</h3>
+        <ul>
+            <li><strong>Camera and Gallery:</strong> Required only if the user chooses to upload a profile picture.</li>
+            <li><strong>Internet/Network:</strong> To communicate with Firebase servers (real-time data synchronization).</li>
+        </ul>
+
+        <h3>4. Services and Storage (Google Firebase)</h3>
+        <p>The app uses secure Google services:</p>
+        <ul>
+            <li><strong>Firebase Authentication:</strong> For secure login management.</li>
+            <li><strong>Cloud Firestore:</strong> Database to store books, loans, and user information.</li>
+            <li><strong>Firebase Storage:</strong> For secure storage of profile pictures.</li>
+        </ul>
+
+        <h3>5. Data Deletion</h3>
+        <p>
+            We respect your privacy. The user has a dedicated option within the app (in the <strong>Profile Menu</strong>) 
+            to <strong>permanently delete their account</strong>. This action removes all personal data associated with the registration.
+        </p>
+
+        <h3>6. Contact</h3>
+        <p>
+          Privacy questions can be sent to: 
+          <a href="mailto:arnaldo.araujo.dev@gmail.com">arnaldo.araujo.dev@gmail.com</a>.
+        </p>
+      </div>
+
+    </div>
+
     <hr />
-
-    <!-- i9Brasileirão -->
-    <div class="policy-block brasileirao" id="i9brasileirao">
-      <h2>Política de Privacidade – i9Brasileirão</h2>
-      <p><strong>Desenvolvedor:</strong> Arnaldo Junior (I9Android)</p>
-
-      <p>
-        O aplicativo <strong>i9Brasileirão</strong> utiliza serviços como Firebase
-        Authentication, Firebase Realtime Database e AdMob para oferecer
-        funcionalidades como login, atualização de dados em tempo real, e exibição
-        de anúncios. Este app substitui o i9Fute.
-      </p>
-
-      <h3>1. Coleta de Informações</h3>
-      <ul>
-        <li>Nome e email fornecidos no login;</li>
-        <li>Time de futebol escolhido pelo usuário;</li>
-        <li>Informações de uso e preferências no app.</li>
-      </ul>
-
-      <h3>2. Uso das Informações</h3>
-      <ul>
-        <li>Gerenciar sua conta e pontuação;</li>
-        <li>Exibir anúncios personalizados via AdMob (quando ativo);</li>
-        <li>Fornecer atualizações em tempo real de partidas e dados do futebol brasileiro;</li>
-        <li>Exibir notícias relacionadas ao futebol.</li>
-      </ul>
-    </div>
-
-    <!-- i9Fute -->
-    <div class="policy-block i9fute" id="i9fute">
-      <h2>Política de Privacidade – i9Fute</h2>
-      <p><strong>Desenvolvedor:</strong> Arnaldo Junior (I9Android)</p>
-
-      <p>
-        O aplicativo <strong>i9Fute</strong> utiliza serviços como Firebase
-        Authentication, Firebase Realtime Database e AdMob para oferecer
-        funcionalidades como login, atualização de dados em tempo real, e exibição
-        de anúncios.
-      </p>
-
-      <h3>1. Coleta de Informações</h3>
-      <ul>
-        <li>Nome e email fornecidos no login;</li>
-        <li>Time de futebol escolhido pelo usuário;</li>
-        <li>Informações de uso e preferências no app.</li>
-      </ul>
-
-      <h3>2. Uso das Informações</h3>
-      <ul>
-        <li>Gerenciar sua conta e pontuação;</li>
-        <li>Exibir anúncios personalizados via AdMob (quando ativo);</li>
-        <li>Fornecer atualizações em tempo real de partidas e dados do futebol brasileiro.</li>
-      </ul>
-
-      <h3>3. Permissões Solicitadas</h3>
-      <ul>
-        <li>Acesso à Internet e estado da rede;</li>
-        <li>Identificação do dispositivo para notificações e segurança.</li>
-      </ul>
-
-      <h3>4. Armazenamento e Segurança</h3>
-      <p>
-        Todos os dados são armazenados com segurança no Firebase, seguindo boas
-        práticas e criptografia.
-      </p>
-
-      <h3>5. Seus Direitos</h3>
-      <p>
-        Você pode solicitar a exclusão de sua conta e dados a qualquer momento
-        pelo e-mail:
-        <a href="mailto:arnaldo.araujo.dev@gmail.com">arnaldo.araujo.dev@gmail.com</a>.
-      </p>
-    </div>
-
-    <!-- Boot Time -->
-    <div class="policy-block boottime" id="boottime">
-      <h2>Política de Privacidade – Boot Time</h2>
-      <p><strong>Desenvolvedor:</strong> Arnaldo Junior (I9Android)</p>
-
-      <p>
-        O aplicativo <strong>Boot Time</strong> é um utilitário que monitora a
-        reinicialização do dispositivo para exibir informações úteis ao usuário.
-        Não exige login nem coleta dados sensíveis.
-      </p>
-
-      <h3>1. Coleta de Informações</h3>
-      <p>
-        O Boot Time <strong>não coleta informações pessoais identificáveis</strong>.
-        Apenas dados locais e estatísticas do próprio dispositivo são utilizados,
-        como horário do boot e tempo de inicialização.
-      </p>
-
-      <h3>2. Uso das Informações</h3>
-      <ul>
-        <li>Mostrar o tempo de boot do sistema;</li>
-        <li>Armazenar localmente as estatísticas de inicialização (sem envio à nuvem).</li>
-      </ul>
-
-      <h3>3. Permissões Solicitadas</h3>
-      <ul>
-        <li>Acesso ao estado do dispositivo;</li>
-        <li>Permissões de boot (para iniciar automaticamente após reinicialização).</li>
-      </ul>
-
-      <h3>4. Segurança</h3>
-      <p>
-        Como o aplicativo não coleta nem transmite dados pessoais, não há risco de
-        vazamento de informações. Todo processamento é feito localmente no aparelho.
-      </p>
-
-      <h3>5. Seus Direitos</h3>
-      <p>
-        Você pode desinstalar o aplicativo a qualquer momento. Nenhum dado é
-        mantido em servidores externos.
-      </p>
-    </div>
-
-    <!-- DinheirU -->
-    <div class="policy-block dinheiru" id="dinheiru">
-      <h2>Política de Privacidade – DinheirU</h2>
-      <p><strong>Desenvolvedor/Controlador:</strong> Arnaldo Junior (I9Android)</p>
-
-      <p>
-        O <strong>DinheirU</strong> é um aplicativo de <em>orçamento e controle financeiro em tempo real</em>,
-        permitindo lançamentos simultâneos por vários familiares em uma mesma família (ou de forma individual).
-      </p>
-
-      <h3>1. Serviços e Tecnologias Utilizadas</h3>
-      <ul>
-        <li>Firebase Authentication (login obrigatório);</li>
-        <li>Realtime Database e Cloud Firestore (dados);</li>
-        <li>Firebase Storage (comprovantes);</li>
-        <li>Firebase Functions (processos automáticos);</li>
-        <li>Firebase Analytics e Crashlytics (métricas e erros);</li>
-        <li>Firebase Cloud Messaging (notificações push);</li>
-        <li>Google AdMob (anúncios – banners e vídeos);</li>
-        <li>Google Play Billing (licença sem anúncios).</li>
-      </ul>
-
-      <h3>2. Dados que Coletamos</h3>
-      <ul>
-        <li>Nome e e-mail da conta;</li>
-        <li>Dados de lançamentos financeiros (valores, categorias, anexos);</li>
-        <li>Dados de uso e falhas (Analytics e Crashlytics);</li>
-        <li>Tokens de notificação (push);</li>
-        <li>Status de compra de licença (sem detalhes de cartão – processados pela Google).</li>
-      </ul>
-
-      <h3>3. Finalidade do Uso</h3>
-      <ul>
-        <li>Gerenciar contas e famílias;</li>
-        <li>Sincronizar gastos em tempo real;</li>
-        <li>Exibir anúncios (quando aplicável);</li>
-        <li>Permitir remoção de anúncios via licença;</li>
-        <li>Enviar notificações relevantes.</li>
-      </ul>
-
-      <h3>4. Armazenamento e Segurança</h3>
-      <ul>
-        <li>Criptografia em trânsito e repouso (TLS e Google Cloud);</li>
-        <li>Regras de segurança no Firebase garantindo acesso só a membros autorizados.</li>
-      </ul>
-
-      <h3>5. Seus Direitos</h3>
-      <p>
-        Você pode solicitar exclusão da sua conta e dados a qualquer momento pelo e-mail:
-        <a href="mailto:arnaldo.araujo.dev@gmail.com">arnaldo.araujo.dev@gmail.com</a>.
-      </p>
-    </div>
-
-    <hr />
-    <p><strong>Última atualização:</strong> 21/08/2025</p>
+    <p><strong>Última atualização / Last update:</strong> 21/08/2025</p>
   </body>
 </html>
