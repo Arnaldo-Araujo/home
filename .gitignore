@@ -18,5 +18,3 @@ _site/
 Gemfile.lock
 status_projeto.md
 
-# Ignore GitHub configurations
-.github/
