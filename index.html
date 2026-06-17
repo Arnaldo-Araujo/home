@@ -1,123 +1,339 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Curriculum Arnaldo Junior</title>
-   <!--<link rel="stylesheet" href="assets/css/style.css">-->
-   <link rel="icon" type="image/png" href="assets/images/favicon.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfólio de Arnaldo Junior — Especialista Java/Spring Boot e Desenvolvedor Mobile Flutter. Disponível para contratos de desenvolvimento de software.">
+  <meta property="og:title" content="Arnaldo Junior | Desenvolvedor Java & Mobile">
+  <meta property="og:description" content="Especialista em Java, Spring Boot e desenvolvimento mobile com Flutter. Mais de 10 anos de experiência em TI.">
+  <title>Arnaldo Junior | Desenvolvedor Java & Mobile</title>
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+  <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
-   <nav>
-      <a href="index.html">Português</a> |
-      <a href="index-en.html">English</a>
-   </nav>
-   <header>
-    <img src="assets/images/foto.jpeg" alt="Foto de Arnaldo Junior" style="border-radius: 50%; width: 150px; height: 150px;">
-    <h1>Arnaldo Bezerra de Araujo Junior</h1>
-    <p>Especialista Java / Spring Boot & Desenvolvedor Mobile</p>
+
+<!-- ══ NAV ══════════════════════════════════════════════════ -->
+<nav>
+  <span class="nav-brand">arnaldo<span>.dev</span></span>
+  <div class="nav-links">
+    <a href="#sobre">Sobre</a>
+    <a href="#habilidades">Habilidades</a>
+    <a href="#experiencia">Experiência</a>
+    <a href="#projetos">Projetos</a>
+    <a href="#contato">Contato</a>
+  </div>
+  <div class="nav-lang">
+    <a href="index.html" class="active">PT</a>
+    <a href="index-en.html">EN</a>
+  </div>
+</nav>
+
+<!-- ══ HERO ═════════════════════════════════════════════════ -->
+<header>
+  <div class="hero">
+    <div class="hero-avatar">
+      <img src="assets/images/foto.jpeg" alt="Foto de Arnaldo Junior">
+    </div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Disponível para Contratos</p>
+      <h1>Arnaldo Bezerra<br>de Araujo Junior</h1>
+      <p class="hero-title">Especialista <strong>Java / Spring Boot</strong> &amp; Desenvolvedor Mobile</p>
+      <p class="hero-bio">
+        Engenheiro de software com <strong>+10 anos</strong> no setor de TI. Desenvolvimento de sistemas corporativos robustos com Java e Spring Boot, APIs RESTful de alta disponibilidade e aplicações mobile cross-platform com Flutter. Entrego soluções escaláveis, bem documentadas e dentro do prazo.
+      </p>
+      <div class="hero-actions">
+        <a href="#projetos" class="btn btn-primary">Ver Projetos ↓</a>
+        <a href="mailto:bezerra_de_araujo@hotmail.com" class="btn btn-outline">Entrar em Contato</a>
+      </div>
+    </div>
+  </div>
 </header>
 
+<!-- ══ STATS BAR ═════════════════════════════════════════════ -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-value">10+</div>
+    <div class="stat-label">Anos em TI</div>
+  </div>
+  <div class="stat">
+    <div class="stat-value">3</div>
+    <div class="stat-label">Projetos Mobile</div>
+  </div>
+  <div class="stat">
+    <div class="stat-value">Java</div>
+    <div class="stat-label">Stack Principal</div>
+  </div>
+  <div class="stat">
+    <div class="stat-value">Firebase</div>
+    <div class="stat-label">Backend Cloud</div>
+  </div>
+</div>
 
-    <section>
-        <h2>Contato</h2>
-        <div class="contact-info">
-            <p>Email: <a href="mailto:bezerra_de_araujo@hotmail.com">bezerra_de_araujo@hotmail.com</a></p>
-            <p>Telefone: (63) 98138-2638</p>
-            <p>Endereço: 606 Sul Alameda Atos Bulcão QI13, Lote 24 Ap 03</p>
+<!-- ══ SOBRE ═════════════════════════════════════════════════ -->
+<section id="sobre">
+  <div class="container">
+    <p class="section-label">01 — Sobre</p>
+    <h2 class="section-title">Quem sou eu</h2>
+    <div class="card">
+      <p style="color: var(--text-secondary); line-height:1.85; font-size:0.97rem;">
+        Sou um desenvolvedor com sólida experiência em <strong>Java Enterprise</strong>, <strong>Spring Boot</strong> e arquitetura de sistemas distribuídos, atuando também no desenvolvimento mobile com <strong>Flutter e Dart</strong>. Ao longo de mais de uma década na área de TI — incluindo a gestão e liderança técnica de setores de TI em organizações militares — desenvolvi uma capacidade única de entregar software de qualidade sob pressão, com foco em resultados mensuráveis e comunicação clara com stakeholders.
+      </p>
+      <br>
+      <p style="color: var(--text-secondary); line-height:1.85; font-size:0.97rem;">
+        Atualmente estou cursando <strong>Tecnologia em Análise e Desenvolvimento de Sistemas</strong> (previsão de conclusão: 2026) e continuo atualizando minhas habilidades com as melhores práticas do ecossistema Java moderno e do desenvolvimento mobile cross-platform.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HABILIDADES ═══════════════════════════════════════════ -->
+<section id="habilidades">
+  <div class="container">
+    <p class="section-label">02 — Stack</p>
+    <h2 class="section-title">Habilidades Técnicas</h2>
+    <div class="skills-grid">
+
+      <div class="skill-category">
+        <div class="skill-category-title"><span class="skill-icon">☕</span> Backend & Enterprise</div>
+        <div class="skill-tags">
+          <span class="tag primary">Java</span>
+          <span class="tag primary">Spring Boot</span>
+          <span class="tag">Hibernate / JPA</span>
+          <span class="tag">REST API</span>
+          <span class="tag">Maven</span>
         </div>
-    </section>
+      </div>
 
-    <section>
-        <h2>Perfil Pessoal</h2>
-        <p>Especialista em Java com mais de 10 anos de experiência no setor de TI, focado no desenvolvimento de sistemas robustos, arquitetura de software e gestão de equipes. Sólidos conhecimentos no ecossistema Spring Boot, Hibernate e bancos de dados relacionais. Adicionalmente, atuo no desenvolvimento mobile utilizando o framework Flutter (com Dart, Riverpod e Firebase) para criação de aplicações escaláveis e modernas. Experiência consolidada em administração avançada de servidores Linux Manjaro e no ambiente de TI militar.</p>
-    </section>
-
-    <section>
-        <h2>Experiência Profissional</h2>
-        <ul>
-            <li><strong>Chefe da Seção de TI do 22º Batalhão de Infantaria</strong> (Ago 2023 - Presente)</li>
-            <li><strong>Adjunto do Setor de TI do 22º Batalhão de Infantaria</strong> (Jan 2022 - Jul 2023)</li>
-            <li><strong>Responsável técnico do setor de TI do 1º Batalhão de Polícia do Exército</strong> (Mar 2013 - Dez 2016)</li>
-        </ul>
-    </section>
-
-    <section>
-        <h2>Habilidades Técnicas</h2>
-        <div class="skills">
-            <div><strong>Linguagens:</strong> Java, Dart, Python, JavaScript, PHP</div>
-            <div><strong>Frameworks (Backend):</strong> Spring Boot, Hibernate</div>
-            <div><strong>Mobile & Cloud:</strong> Flutter, Firebase, Riverpod</div>
-            <div><strong>Bancos de Dados:</strong> PostgreSQL, MySQL, Firestore</div>
-            <div><strong>Infra & DevSecOps:</strong> Linux Manjaro, Servidores, CI/CD, Git</div>
+      <div class="skill-category">
+        <div class="skill-category-title"><span class="skill-icon">🗄️</span> Bancos de Dados</div>
+        <div class="skill-tags">
+          <span class="tag primary">PostgreSQL</span>
+          <span class="tag primary">MySQL</span>
+          <span class="tag">Firestore</span>
+          <span class="tag">SQL</span>
         </div>
-    </section>
+      </div>
 
-    <section>
-        <h2>Habilidades Pessoais</h2>
-        <ul>
-            <li>Liderança</li>
-            <li>Pensamento Crítico</li>
-            <li>Autonomia</li>
-            <li>Comunicação Clara</li>
-            <li>Adaptabilidade</li>
-            <li>Resolução de Problemas</li>
-            <li>Atenção aos Detalhes</li>
-        </ul>
-    </section>
+      <div class="skill-category">
+        <div class="skill-category-title"><span class="skill-icon">📱</span> Mobile (Flutter)</div>
+        <div class="skill-tags">
+          <span class="tag primary">Flutter</span>
+          <span class="tag primary">Dart</span>
+          <span class="tag">Riverpod</span>
+          <span class="tag">Freezed</span>
+          <span class="tag">Go_Router</span>
+          <span class="tag">ADB</span>
+        </div>
+      </div>
 
-    <section>
-        <h2>Certificados</h2>
-        <ul>
-            <li>Desenvolvedor Java Web - COTI Informática (2013)</li>
-        </ul>
-    </section>
+      <div class="skill-category">
+        <div class="skill-category-title"><span class="skill-icon">☁️</span> Cloud & DevOps</div>
+        <div class="skill-tags">
+          <span class="tag primary">Firebase</span>
+          <span class="tag">Firebase Auth</span>
+          <span class="tag">Cloud Functions</span>
+          <span class="tag">CI/CD</span>
+          <span class="tag">Git</span>
+        </div>
+      </div>
 
-    <section>
-        <h2>Formação Acadêmica</h2>
-        <p>Tecnologia de Análise e Desenvolvimento de Sistemas - Cursando (Término: 2026)</p>
-    </section>
+      <div class="skill-category">
+        <div class="skill-category-title"><span class="skill-icon">🐧</span> Infraestrutura & OS</div>
+        <div class="skill-tags">
+          <span class="tag primary">Linux Manjaro</span>
+          <span class="tag">Administração de Servidores</span>
+          <span class="tag">Shell Script</span>
+          <span class="tag">Python</span>
+        </div>
+      </div>
 
-    <section id="sentido">
-        <h2>App Sentido - Gestão e Presença Militar</h2>
-        <p>O aplicativo <strong>Sentido</strong> é uma solução completa para a gestão de escalas de serviço, controle de presença e organização administrativa em organizações militares.</p>
-        <h3>Principais Funcionalidades:</h3>
-        <ul>
-            <li>Gestão de escalas de serviço em tempo real;</li>
-            <li>Controle de presença em formaturas e missões;</li>
-            <li>Sincronização via Firebase para múltiplos usuários;</li>
-            <li>Interface adaptada para a hierarquia militar.</li>
-        </ul>
-        <p>Para mais detalhes sobre privacidade, acesse nossa <a href="privacy/index.html#sentido">Política de Privacidade</a>.</p>
-    </section>
+      <div class="skill-category">
+        <div class="skill-category-title"><span class="skill-icon">🤝</span> Soft Skills</div>
+        <div class="skill-tags">
+          <span class="tag">Liderança Técnica</span>
+          <span class="tag">Gestão de Equipes</span>
+          <span class="tag">Comunicação Clara</span>
+          <span class="tag">Autonomia</span>
+          <span class="tag">Resolução de Problemas</span>
+        </div>
+      </div>
 
-    <footer>
-        &copy; 2024 Arnaldo Junior. Todos os direitos reservados.
-    </footer>
-    <script>
-        // Lista de arquivos CSS disponíveis
-        const cssFiles = [
-            "assets/css/style1.css",
-            "assets/css/style2.css",
-            "assets/css/style3.css",
-            "assets/css/style4.css",
-            "assets/css/style5.css",
-            "assets/css/style6.css"
-            
-        ];
-    
-        // Função para carregar um arquivo CSS aleatório
-        function loadRandomCSS() {
-            const randomIndex = Math.floor(Math.random() * cssFiles.length); // Seleciona um índice aleatório
-            const linkElement = document.createElement("link"); // Cria o elemento <link>
-            linkElement.rel = "stylesheet"; // Define o relacionamento como folha de estilo
-            linkElement.href = cssFiles[randomIndex]; // Define o arquivo CSS
-            document.head.appendChild(linkElement); // Adiciona o elemento ao <head> do documento
-        }
-    
-        // Carrega o CSS ao carregar a página
-        window.onload = loadRandomCSS;
-    </script>
+    </div>
+  </div>
+</section>
+
+<!-- ══ EXPERIÊNCIA ═══════════════════════════════════════════ -->
+<section id="experiencia">
+  <div class="container">
+    <p class="section-label">03 — Trajetória</p>
+    <h2 class="section-title">Experiência Profissional</h2>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">Ago 2023 — Presente</div>
+        <div class="timeline-role">Chefe da Seção de TI</div>
+        <div class="timeline-org">22º Batalhão de Infantaria</div>
+        <div class="timeline-desc">
+          <ul>
+            <li>Liderança técnica e administrativa do setor de TI com gestão de equipe.</li>
+            <li>Planejamento e implantação de soluções de software para gestão operacional.</li>
+            <li>Administração de servidores Linux e infraestrutura de rede local.</li>
+            <li>Desenvolvimento de ferramentas internas para automação de processos administrativos.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">Jan 2022 — Jul 2023</div>
+        <div class="timeline-role">Adjunto do Setor de TI</div>
+        <div class="timeline-org">22º Batalhão de Infantaria</div>
+        <div class="timeline-desc">
+          <ul>
+            <li>Apoio técnico no desenvolvimento e manutenção de sistemas internos.</li>
+            <li>Suporte e manutenção de infraestrutura de hardware e rede.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">Mar 2013 — Dez 2016</div>
+        <div class="timeline-role">Responsável Técnico de TI</div>
+        <div class="timeline-org">1º Batalhão de Polícia do Exército</div>
+        <div class="timeline-desc">
+          <ul>
+            <li>Gestão completa do setor de TI com foco em confiabilidade e segurança.</li>
+            <li>Desenvolvimento de sistemas internos com Java para automação de processos.</li>
+            <li>Instalação, compilação e implantação de sistemas em servidores Linux.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROJETOS ══════════════════════════════════════════════ -->
+<section id="projetos">
+  <div class="container">
+    <p class="section-label">04 — Portfólio</p>
+    <h2 class="section-title">Projetos em Destaque</h2>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-name">App Sentido</div>
+          <span class="project-badge">Mobile · Firebase</span>
+        </div>
+        <p class="project-desc">
+          <strong>O problema:</strong> Organizações militares gerenciavam escalas e presenças em planilhas físicas — processo lento e sujeito a erros.
+          <br><br>
+          <strong>A solução:</strong> Aplicativo mobile completo com sincronização em tempo real via Firebase, controle de presença, gestão de escalas e interface adaptada para a hierarquia militar.
+          <br><br>
+          <strong>Resultado:</strong> Sistema ativo utilizado em produção no 22º BI, eliminando o processo manual de controle de presença.
+        </p>
+        <div class="project-stack">
+          <span class="tag">Flutter</span>
+          <span class="tag">Dart</span>
+          <span class="tag">Firebase</span>
+          <span class="tag">Riverpod</span>
+          <span class="tag">Freezed</span>
+        </div>
+        <a href="privacy/index.html#sentido" class="project-link">Ver Política de Privacidade →</a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-name">Bootime</div>
+          <span class="project-badge">Mobile · Produtividade</span>
+        </div>
+        <p class="project-desc">
+          Aplicativo mobile de produtividade e organização desenvolvido com Flutter. Publicado na Google Play Store, demonstrando capacidade de entregar um produto completo — do desenvolvimento ao deploy.
+        </p>
+        <div class="project-stack">
+          <span class="tag">Flutter</span>
+          <span class="tag">Dart</span>
+          <span class="tag">Firebase</span>
+          <span class="tag">Google Play</span>
+        </div>
+        <a href="bootime/" class="project-link">Ver Detalhes →</a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-name">I9 Brasileirão</div>
+          <span class="project-badge">Mobile · Esportes</span>
+        </div>
+        <p class="project-desc">
+          Aplicativo mobile de acompanhamento do Campeonato Brasileiro de Futebol. Publicado na Google Play Store, com dados em tempo real e interface responsiva construída em Flutter.
+        </p>
+        <div class="project-stack">
+          <span class="tag">Flutter</span>
+          <span class="tag">Dart</span>
+          <span class="tag">API REST</span>
+          <span class="tag">Google Play</span>
+        </div>
+        <a href="i9brasileirao/" class="project-link">Ver Detalhes →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ FORMAÇÃO & CERTIFICADOS ═══════════════════════════════ -->
+<section id="formacao">
+  <div class="container">
+    <p class="section-label">05 — Educação</p>
+    <h2 class="section-title">Formação &amp; Certificados</h2>
+    <div class="skills-grid">
+      <div class="card">
+        <div class="timeline-date">Em andamento — Conclusão: 2026</div>
+        <div class="timeline-role" style="margin-top:6px;">Tecnologia em Análise e Desenvolvimento de Sistemas</div>
+        <div class="timeline-org" style="margin-top:4px;">Ensino Superior</div>
+      </div>
+      <div class="card">
+        <div class="timeline-date">2013</div>
+        <div class="timeline-role" style="margin-top:6px;">Desenvolvedor Java Web</div>
+        <div class="timeline-org" style="margin-top:4px;">COTI Informática</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTATO ═══════════════════════════════════════════════ -->
+<section id="contato">
+  <div class="container">
+    <p class="section-label">06 — Contato</p>
+    <h2 class="section-title">Vamos trabalhar juntos</h2>
+    <p style="color:var(--text-secondary); margin-bottom:28px; max-width:480px;">
+      Disponível para contratos de desenvolvimento de software. Entre em contato por e-mail ou pelo GitHub.
+    </p>
+    <div class="contact-grid">
+      <a href="mailto:bezerra_de_araujo@hotmail.com" class="contact-link" id="contact-email">
+        <span class="contact-icon">✉️</span>
+        bezerra_de_araujo@hotmail.com
+      </a>
+      <a href="https://github.com/Arnaldo-Araujo" target="_blank" rel="noopener" class="contact-link" id="contact-github">
+        <span class="contact-icon">🐙</span>
+        github.com/Arnaldo-Araujo
+      </a>
+      <a href="tel:+5563981382638" class="contact-link" id="contact-phone">
+        <span class="contact-icon">📱</span>
+        (63) 98138-2638
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ════════════════════════════════════════════════ -->
+<footer>
+  <p>© 2024 Arnaldo Bezerra de Araujo Junior · Desenvolvido com HTML &amp; CSS puro ·
+    <a href="index-en.html">English version</a> ·
+    <a href="privacy/index.html">Política de Privacidade</a>
+  </p>
+</footer>
+
 </body>
 </html>
-
