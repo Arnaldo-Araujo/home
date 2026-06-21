@@ -35,13 +35,13 @@ function renderSidebar() {
 function loadExercise(index) {
     currentIndex = index;
     const ex = exercises[index];
-    
+
     // Update UI
     exerciseTitle.textContent = ex.title;
     codeEditor.value = ex.code;
-    
+
     hideFeedback();
-    
+
     // Update sidebar active state
     document.querySelectorAll('.exercise-item').forEach((el, i) => {
         if (i === index) el.classList.add('active');
@@ -59,29 +59,67 @@ function hideFeedback() {
     feedbackArea.innerHTML = '';
 }
 
+/**
+ * Normaliza uma string removendo espaços em branco e convertendo para minúsculas.
+ * Usado para comparação tolerante a formatação.
+ */
 function normalizeString(str) {
-    // Remove all whitespace for a generous comparison
     return str.replace(/\s+/g, '').toLowerCase();
 }
 
+/**
+ * Extrai os "fragmentos de verificação" a partir do campo correction.
+ * O campo correction pode conter múltiplas linhas e comentários explicativos.
+ * Extrai apenas as linhas de código significativas (não vazias e não iniciadas com //).
+ */
+function extractCodeFragments(correctionStr) {
+    const lines = correctionStr.split('\n');
+    const fragments = [];
+
+    for (const line of lines) {
+        const trimmed = line.trim();
+        // Ignora linhas vazias e linhas que são só comentários de instrução
+        if (trimmed.length === 0) continue;
+        if (trimmed.startsWith('//') && trimmed.includes('Mover')) continue;
+        if (trimmed.startsWith('//') && trimmed.includes('usar')) continue;
+        if (trimmed.startsWith('//') && trimmed.includes('Use ')) continue;
+        if (trimmed.startsWith('//') && trimmed.includes('Sondagem')) continue;
+
+        fragments.push(trimmed);
+    }
+
+    return fragments;
+}
+
+/**
+ * Verifica se o código do usuário contém a correção esperada.
+ * Estratégia em cascata:
+ *   1. Verifica se algum fragmento de código da correção está no código do usuário (normalizado).
+ *   2. Aceita se pelo menos o primeiro fragmento significativo está presente.
+ */
 function verifyAnswer() {
     const ex = exercises[currentIndex];
     const userCode = codeEditor.value;
-    
-    const requiredCorrection = ex.correction;
-    
-    // Sometimes the correction in JSON contains explanations.
-    // So we do a normalized string check: does the user code contain the core correction snippet?
-    // We normalize both strings (remove spaces, lower case).
-    
+
+    const fragments = extractCodeFragments(ex.correction);
+
+    if (fragments.length === 0) {
+        showFeedback('⚠️ <strong>Exercício especial:</strong> Revise o conceito descrito na dica.', 'hint');
+        return;
+    }
+
     const normalizedUserCode = normalizeString(userCode);
-    const normalizedCorrection = normalizeString(requiredCorrection);
-    
-    // Check if the user code includes the exact correction text
-    // Or if the correction string exists inside the user's code
-    if (normalizedUserCode.includes(normalizedCorrection) || userCode.includes(requiredCorrection)) {
-        showFeedback(`🎉 <strong>Correto!</strong> Você encontrou e resolveu o problema!`, 'success');
-        
+
+    // Verifica cada fragmento
+    const matched = fragments.some(fragment => {
+        const normalizedFragment = normalizeString(fragment);
+        // Ignora fragmentos muito curtos (ex: chaves sozinhas)
+        if (normalizedFragment.length < 4) return false;
+        return normalizedUserCode.includes(normalizedFragment);
+    });
+
+    if (matched) {
+        showFeedback(`🎉 <strong>Correto!</strong> Você encontrou e corrigiu o problema!`, 'success');
         // Mark as completed
         document.querySelectorAll('.exercise-item')[currentIndex].classList.add('completed');
     } else {
@@ -99,7 +137,8 @@ showHintBtn.addEventListener('click', () => {
 
 showAnswerBtn.addEventListener('click', () => {
     const ex = exercises[currentIndex];
-    showFeedback(`📖 <strong>Correção Esperada:</strong><br><br><code>${ex.correction}</code>`, 'hint');
+    const correctionDisplay = ex.correction.replace(/\n/g, '<br>');
+    showFeedback(`📖 <strong>Correção Esperada:</strong><br><br><code>${correctionDisplay}</code>`, 'hint');
 });
 
 // Initialize
