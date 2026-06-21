@@ -33,9 +33,58 @@ const MODULES = [
     {
         id: 'mod4',
         name: 'Módulo 4',
-        subtitle: 'Recursão e Estruturas de Dados',
+        subtitle: 'Recursão e Algoritmos Básicos',
         icon: '🌳',
         range: [51, 65]  // Códigos 18–22 + intermediários
+    },
+    {
+        id: 'mod5',
+        name: 'Módulo 5',
+        subtitle: 'Filas, Pilhas e Listas',
+        icon: '📚',
+        range: [66, 69]
+    },
+    {
+        id: 'mod6',
+        name: 'Módulo 6',
+        subtitle: 'Algoritmos de Ordenação',
+        icon: '⏱️',
+        range: [70, 72]
+    },
+    {
+        id: 'mod7',
+        name: 'Módulo 7',
+        subtitle: 'Ponteiros Avançados',
+        icon: '🎯',
+        range: [73, 75]
+    },
+    {
+        id: 'mod8',
+        name: 'Módulo 8',
+        subtitle: 'Árvores',
+        icon: '🌲',
+        range: [76, 77]
+    },
+    {
+        id: 'mod9',
+        name: 'Módulo 9',
+        subtitle: 'Grafos',
+        icon: '🕸️',
+        range: [78, 79]
+    },
+    {
+        id: 'mod10',
+        name: 'Módulo 10',
+        subtitle: 'Tabela de Dispersão (Hash)',
+        icon: '🏷️',
+        range: [80, 81]
+    },
+    {
+        id: 'mod11',
+        name: 'Módulo Hard',
+        subtitle: 'Sobrevivência & Boss Fights',
+        icon: '💀',
+        range: [82, 84]
     }
 ];
 

@@ -542,4 +542,99 @@ const exercisesData = [
         "error_description": "TAMANHO_HASH está definido como 0. A operação chave % TAMANHO_HASH é uma divisão por zero, que causa Floating Point Exception (SIGFPE) em tempo de execução e termina o programa abruptamente. O tamanho da tabela hash deve ser sempre um número positivo, preferencialmente primo para reduzir colisões.",
         "correction": "#define TAMANHO_HASH 11"
     }
-];
+,\n    {
+    "title": "Código 23: Pilha sem Fundo (Stack Underflow)",
+    "error_description": "A função de pop tenta retirar de uma pilha vazia e acessa um índice negativo.",
+    "code": "// Implementação de uma Pilha em C\n    #include <stdio.h>\n    #define MAX 5\n    \n    int stack[MAX];\n    int top = 0; // Erro lógico: top indica o próximo espaço vazio\n    \n    void push(int val) {\n        if (top < MAX) {\n            stack[top++] = val;\n        }\n    }\n    \n    int pop() {\n        // Retira o elemento do topo da pilha\n        return stack[--top];\n    }\n    \n    int main() {\n        push(10);\n        pop();\n        // Esta chamada causará underflow e acessará stack[-1]\n        int val = pop();\n        printf(\"Valor retirado: %d\\n    \", val);\n        return 0;\n    }",
+    "correction": "// Antes de decrementar e acessar, deve-se verificar se a pilha não está vazia.\n    int pop() {\n        if (top > 0) {\n            return stack[--top];\n        }\n        return -1; // Sinaliza erro\n    }"
+},\n    {
+    "title": "Código 23-A: Fila Circular Sobreposta",
+    "error_description": "Fila circular perde o controle de tamanho e sobrepõe os dados sem verificar o limite.",
+    "code": "// Fila Circular (Circular Queue)\n    #include <stdio.h>\n    #define SIZE 3\n    \n    int queue[SIZE];\n    int head = 0, tail = 0;\n    \n    void enqueue(int val) {\n        queue[tail] = val;\n        tail = (tail + 1) % SIZE;\n        // Faltou verificar se head == tail (Fila cheia)\n    }\n    \n    int main() {\n        enqueue(1);\n        enqueue(2);\n        enqueue(3);\n        enqueue(4); // Vai sobrescrever o elemento '1' silenciosamente\n        printf(\"Head aponta para: %d\\n    \", queue[head]);\n        return 0;\n    }",
+    "correction": "// Adicionar uma variável \"count\" ou verificar (tail + 1) % SIZE == head\n    int count = 0;\n    void enqueue(int val) {\n        if (count < SIZE) {\n            queue[tail] = val;\n            tail = (tail + 1) % SIZE;\n            count++;\n        }\n    }"
+},\n    {
+    "title": "Código 23-B: Lista Encadeada Perdida",
+    "error_description": "Avanço do ponteiro head diretamente causa memory leak de todos os nós removidos.",
+    "code": "#include <stdio.h>\n    #include <stdlib.h>\n    \n    typedef struct Node {\n        int data;\n        struct Node* next;\n    } Node;\n    \n    Node* head = NULL;\n    \n    void remove_first() {\n        if (head != NULL) {\n            // Erro: avança o head mas não dá free() no nó antigo!\n            head = head->next;\n        }\n    }\n    \n    int main() {\n        head = malloc(sizeof(Node));\n        head->data = 10;\n        head->next = NULL;\n        remove_first();\n        return 0;\n    }",
+    "correction": "// Deve-se guardar o ponteiro original antes de avançar o head\n    void remove_first() {\n        if (head != NULL) {\n            Node* temp = head;\n            head = head->next;\n            free(temp);\n        }\n    }"
+},\n    {
+    "title": "Código 24: Lista Duplamente Encadeada (Nó Isolado)",
+    "error_description": "Erro ao remover nó do meio: o ponteiro 'prev' do próximo nó não foi atualizado.",
+    "code": "#include <stdio.h>\n    #include <stdlib.h>\n    \n    typedef struct Node {\n        int data;\n        struct Node* next;\n        struct Node* prev;\n    } Node;\n    \n    void remove_node(Node* target) {\n        if (!target) return;\n        \n        if (target->prev) {\n            target->prev->next = target->next;\n        }\n        // Erro: não atualiza o ponteiro prev do target->next\n        \n        free(target);\n    }",
+    "correction": "// Atualizar o ponteiro prev do próximo nó\n    void remove_node(Node* target) {\n        if (!target) return;\n        if (target->prev) target->prev->next = target->next;\n        if (target->next) target->next->prev = target->prev;\n        free(target);\n    }"
+},\n    {
+    "title": "Código 25: QuickSort Recursão Infinita",
+    "error_description": "O particionamento do QuickSort usa índices de forma que causa loop infinito se existirem elementos duplicados repetidos.",
+    "code": "#include <stdio.h>\n    \n    void quicksort(int arr[], int left, int right) {\n        if (left >= right) return;\n        \n        int pivot = arr[left];\n        int i = left, j = right;\n        \n        while (i <= j) {\n            while (arr[i] < pivot) i++;\n            while (arr[j] > pivot) j--;\n            if (i <= j) {\n                int temp = arr[i];\n                arr[i] = arr[j];\n                arr[j] = temp;\n                // Erro: faltou incrementar i e decrementar j aqui!\n                // Causa loop infinito se arr[i] == pivot e arr[j] == pivot.\n            }\n        }\n        \n        quicksort(arr, left, j);\n        quicksort(arr, i, right);\n    }",
+    "correction": "// Deve incrementar i e decrementar j logo após a troca\n            if (i <= j) {\n                int temp = arr[i];\n                arr[i] = arr[j];\n                arr[j] = temp;\n                i++;\n                j--;\n            }"
+},\n    {
+    "title": "Código 25-A: Merge Sort Vazamento de Memória",
+    "error_description": "Merge Sort aloca array temporário dinamicamente em cada recursão, mas esquece de liberar.",
+    "code": "#include <stdlib.h>\n    \n    void merge(int arr[], int l, int m, int r) {\n        int n1 = m - l + 1;\n        int n2 = r - m;\n        \n        // Aloca arrays temporários\n        int *L = malloc(n1 * sizeof(int));\n        int *R = malloc(n2 * sizeof(int));\n        \n        for (int i = 0; i < n1; i++) L[i] = arr[l + i];\n        for (int j = 0; j < n2; j++) R[j] = arr[m + 1 + j];\n        \n        int i = 0, j = 0, k = l;\n        while (i < n1 && j < n2) {\n            if (L[i] <= R[j]) arr[k++] = L[i++];\n            else arr[k++] = R[j++];\n        }\n        while (i < n1) arr[k++] = L[i++];\n        while (j < n2) arr[k++] = R[j++];\n        \n        // Erro: Memory leak. Os arrays L e R não recebem free() no final.\n    }",
+    "correction": "// Adicionar free no final da função\n        free(L);\n        free(R);\n    }"
+},\n    {
+    "title": "Código 25-B: Heap Sort (Fora dos Limites)",
+    "error_description": "Cálculo do filho esquerdo em árvore representada por array causa Out of Bounds.",
+    "code": "#include <stdio.h>\n    \n    void heapify(int arr[], int n, int i) {\n        int largest = i;\n        int left = 2 * i;      // Erro: em arrays 0-indexados, o filho esquerdo é 2*i + 1\n        int right = 2 * i + 1; // Erro: e o direito é 2*i + 2\n        \n        if (left < n && arr[left] > arr[largest])\n            largest = left;\n            \n        if (right < n && arr[right] > arr[largest])\n            largest = right;\n            \n        if (largest != i) {\n            int swap = arr[i];\n            arr[i] = arr[largest];\n            arr[largest] = swap;\n            heapify(arr, n, largest);\n        }\n    }",
+    "correction": "// Aritmética de índices 0-based\n        int left = 2 * i + 1;\n        int right = 2 * i + 2;"
+},\n    {
+    "title": "Código 26: Ponteiro Duplo Mal Alocado",
+    "error_description": "Tentativa de alocar uma matriz dinâmica resulta em Segmentation Fault pois o array de ponteiros não foi inicializado corretamente.",
+    "code": "#include <stdlib.h>\n    \n    int** create_matrix(int rows, int cols) {\n        // Erro: alocando sizeof(int) em vez de sizeof(int*)\n        int** matrix = malloc(rows * sizeof(int));\n        \n        for(int i = 0; i < rows; i++) {\n            matrix[i] = malloc(cols * sizeof(int));\n        }\n        return matrix;\n    }",
+    "correction": "// O array primário deve ser um array de ponteiros para int\n        int** matrix = malloc(rows * sizeof(int*));"
+},\n    {
+    "title": "Código 26-A: Ponteiro de Função Incompatível",
+    "error_description": "Uso de casting forçado para ponteiro de função destrói o comportamento na chamada.",
+    "code": "#include <stdio.h>\n    \n    int add(int a, int b) {\n        return a + b;\n    }\n    \n    int main() {\n        // Erro de casting: A assinatura de ponteiro de função está errada\n        void (*func_ptr)() = (void (*)()) add;\n        \n        // Comportamento indefinido!\n        int result = ((int (*)(int, int))func_ptr)(5, 10);\n        printf(\"%d\\n    \", result);\n        return 0;\n    }",
+    "correction": "// Deve-se declarar o ponteiro de função com a assinatura correta\n        int (*func_ptr)(int, int) = add;\n        int result = func_ptr(5, 10);"
+},\n    {
+    "title": "Código 26-B: Aritmética Cega",
+    "error_description": "Aritmética de ponteiros subtraindo ponteiros de tipos incompatíveis ou operando sobre void* (ilegal em C padrão).",
+    "code": "#include <stdio.h>\n    \n    int main() {\n        int arr[5] = {10, 20, 30, 40, 50};\n        void* ptr1 = &arr[0];\n        void* ptr2 = &arr[3];\n        \n        // GCC permite aritmética com void* como extensão, mas o padrão C proíbe.\n        // O erro real: o avanço numérico em void* é tratado como bytes (1),\n        // logo a distância não será 3, mas 3 * sizeof(int).\n        int diff = ptr2 - ptr1;\n        printf(\"Diferença de índices: %d\\n    \", diff);\n        return 0;\n    }",
+    "correction": "// Converter para int* antes da aritmética\n        int diff = (int*)ptr2 - (int*)ptr1;"
+},\n    {
+    "title": "Código 27: AVL - Rotação Incompleta",
+    "error_description": "Rotação à direita em uma árvore AVL perde o filho esquerdo do novo nó raiz.",
+    "code": "typedef struct Node {\n        int key;\n        struct Node *left;\n        struct Node *right;\n        int height;\n    } Node;\n    \n    Node *rightRotate(Node *y) {\n        Node *x = y->left;\n        Node *T2 = x->right;\n    \n        // Rotação\n        x->right = y;\n        // Erro: y->left deve receber T2 para não perder a sub-árvore\n        // y->left = NULL; \n        \n        return x;\n    }",
+    "correction": "// Transferir a sub-árvore direita de x para a esquerda de y\n        y->left = T2;"
+},\n    {
+    "title": "Código 27-A: Remoção com 2 Filhos (BST)",
+    "error_description": "Ao remover um nó com 2 filhos, o nó substituto não é corretamente removido de sua posição original.",
+    "code": "#include <stdlib.h>\n    typedef struct Node { int key; struct Node *left, *right; } Node;\n    \n    Node* minValueNode(Node* node) {\n        Node* current = node;\n        while (current && current->left != NULL) current = current->left;\n        return current;\n    }\n    \n    Node* deleteNode(Node* root, int key) {\n        if (root == NULL) return root;\n        if (key < root->key) root->left = deleteNode(root->left, key);\n        else if (key > root->key) root->right = deleteNode(root->right, key);\n        else {\n            if (root->left == NULL) return root->right;\n            else if (root->right == NULL) return root->left;\n            \n            Node* temp = minValueNode(root->right);\n            root->key = temp->key;\n            // Erro: O temp ainda existe na sub-árvore direita! \n            // Ele precisa ser deletado da raiz original.\n        }\n        return root;\n    }",
+    "correction": "// Deletar o sucessor inorder da sub-árvore direita\n            root->right = deleteNode(root->right, temp->key);"
+},\n    {
+    "title": "Código 28: BFS em Loop Infinito",
+    "error_description": "Busca em largura em grafo com ciclos (cíclico) não marca nós como visitados, travando o sistema.",
+    "code": "#include <stdio.h>\n    #define N 4\n    \n    int graph[N][N] = {\n        {0, 1, 1, 0},\n        {1, 0, 0, 1},\n        {1, 0, 0, 1},\n        {0, 1, 1, 0}\n    };\n    \n    void bfs(int start) {\n        int queue[100];\n        int head = 0, tail = 0;\n        \n        queue[tail++] = start;\n        \n        // Erro: Nenhum array 'visited' é usado!\n        while (head < tail) {\n            int curr = queue[head++];\n            printf(\"Visitando: %d\\n    \", curr);\n            \n            for (int i = 0; i < N; i++) {\n                if (graph[curr][i] == 1) {\n                    queue[tail++] = i;\n                }\n            }\n        }\n    }",
+    "correction": "// Usar array de visited\n        int visited[N] = {0};\n        visited[start] = 1;\n        // Dentro do loop:\n                if (graph[curr][i] == 1 && !visited[i]) {\n                    visited[i] = 1;\n                    queue[tail++] = i;\n                }"
+},\n    {
+    "title": "Código 28-A: DFS (Estouro de Pilha no Grafo)",
+    "error_description": "Grafo gigante com Busca em Profundidade DFS recursiva causa Stack Overflow.",
+    "code": "#include <stdio.h>\n    \n    void dfs(int curr, int visited[], int graph[][10000], int n) {\n        visited[curr] = 1;\n        \n        for (int i = 0; i < n; i++) {\n            // Se n for 10000 e o grafo for uma lista encadeada (pior caso),\n            // a profundidade da recursão será 10000, estourando a call stack de C.\n            if (graph[curr][i] == 1 && !visited[i]) {\n                dfs(i, visited, graph, n);\n            }\n        }\n    }\n    // O erro conceitual é estrutural. Qual a correção?",
+    "correction": "// Converter a DFS recursiva para DFS iterativa com uma estrutura de Pilha (Stack) alocada na Heap."
+},\n    {
+    "title": "Código 29: Colisões (Encadeamento Cíclico)",
+    "error_description": "Tratamento de colisão por encadeamento aberto insere nós de forma errada na lista ligada, criando ciclos infinitos.",
+    "code": "#include <stdlib.h>\n    \n    typedef struct Node { int val; struct Node* next; } Node;\n    \n    Node* table[10] = {NULL};\n    \n    void insert(int key, int val) {\n        int idx = key % 10;\n        Node* n = malloc(sizeof(Node));\n        n->val = val;\n        \n        // Erro: Insere no final mas esquece de setar n->next = NULL\n        if (!table[idx]) {\n            table[idx] = n;\n        } else {\n            Node* curr = table[idx];\n            while (curr->next) curr = curr->next;\n            curr->next = n;\n            // n->next contém lixo de memória e aponta para sabe-se lá onde\n        }\n    }",
+    "correction": "// Inicializar o next do novo nó\n        n->next = NULL;"
+},\n    {
+    "title": "Código 29-A: Resize Catastrófico de Tabela Hash",
+    "error_description": "Ao duplicar o tamanho da tabela, a função esquece de re-hashear os elementos antigos.",
+    "code": "#include <stdlib.h>\n    int* table;\n    int capacity = 10;\n    \n    void resize() {\n        int old_cap = capacity;\n        capacity *= 2;\n        int* new_table = calloc(capacity, sizeof(int));\n        \n        // Copiando bits diretamente. Erro: o índice hash original\n        // era (key % 10), na nova tabela deveria ser (key % 20).\n        for(int i = 0; i < old_cap; i++) {\n            new_table[i] = table[i];\n        }\n        \n        free(table);\n        table = new_table;\n    }",
+    "correction": "// Deve-se re-calcular o hash para cada elemento\n        for(int i = 0; i < old_cap; i++) {\n            if(table[i] != 0) { // Se tem elemento\n                int new_idx = table[i] % capacity; // (simplificação se a chave == val)\n                // Lógica real exigiria ler a chave do elemento\n            }\n        }"
+},\n    {
+    "title": "Código 30: Ponteiro Mágico [HARD]",
+    "error_description": "Manipulação avançada de bits com XOR Linked List corrompendo endereço ao desfazer a operação.",
+    "code": "#include <stdio.h>\n    #include <stdint.h>\n    \n    typedef struct Node {\n        int data;\n        struct Node* nxp; // XOR pointer\n    } Node;\n    \n    // XOR de dois ponteiros\n    Node* XOR(Node* a, Node* b) {\n        return (Node*)((uintptr_t)a ^ (uintptr_t)b);\n    }\n    \n    void insert(Node** head, int data) {\n        Node* n = (Node*)malloc(sizeof(Node));\n        n->data = data;\n        // O nxp é o XOR do anterior (NULL) e próximo (*head)\n        n->nxp = XOR(NULL, *head);\n        \n        if (*head != NULL) {\n            // Para atualizar o *head atual, precisamos do pxn antigo.\n            // Erro: calculando incorretamente!\n            Node* next_nxp = XOR(NULL, (*head)->nxp); \n            (*head)->nxp = XOR(n, next_nxp);\n        }\n        *head = n;\n    }",
+    "correction": "// Para atualizar o nxp do *head antigo, você faz o XOR entre o novo nó (anterior a ele agora) e o próximo dele.\n            Node* next_node = XOR(NULL, (*head)->nxp); // Próximo original\n            (*head)->nxp = XOR(n, next_node);"
+},\n    {
+    "title": "Código 30-A: Matriz Tridimensional Estourada [HARD]",
+    "error_description": "Liberação de matriz 3D dinâmica resulta em Segfault pela ordem incorreta dos free().",
+    "code": "#include <stdlib.h>\n    \n    void free_3d(int ***mat, int x, int y) {\n        // A matriz foi alocada como mat[x][y][z]\n        for (int i = 0; i < x; i++) {\n            free(mat[i]); // Erro Crítico: libera mat[i] antes de liberar mat[i][j]\n            for (int j = 0; j < y; j++) {\n                free(mat[i][j]); \n            }\n        }\n        free(mat);\n    }",
+    "correction": "// A ordem de liberação deve ser de dentro para fora\n        for (int i = 0; i < x; i++) {\n            for (int j = 0; j < y; j++) {\n                free(mat[i][j]); \n            }\n            free(mat[i]);\n        }\n        free(mat);"
+},\n    {
+    "title": "Código 30-B: Data Race Oculta (Threads C11) [HARD]",
+    "error_description": "Mesmo usando mutexes, threads entram em Deadlock devido à inversão de ordem de aquisição.",
+    "code": "#include <pthread.h>\n    \n    pthread_mutex_t m1 = PTHREAD_MUTEX_INITIALIZER;\n    pthread_mutex_t m2 = PTHREAD_MUTEX_INITIALIZER;\n    \n    void* threadA(void* arg) {\n        pthread_mutex_lock(&m1);\n        // processando algo\n        pthread_mutex_lock(&m2);\n        \n        pthread_mutex_unlock(&m2);\n        pthread_mutex_unlock(&m1);\n        return NULL;\n    }\n    \n    void* threadB(void* arg) {\n        pthread_mutex_lock(&m2);\n        // processando algo\n        pthread_mutex_lock(&m1);\n        \n        pthread_mutex_unlock(&m1);\n        pthread_mutex_unlock(&m2);\n        return NULL;\n    }\n    // O que causa o travamento (deadlock)?",
+    "correction": "// A inversão da ordem dos locks causa Deadlock.\n    // Correção: sempre travar na mesma ordem.\n    void* threadB(void* arg) {\n        pthread_mutex_lock(&m1);\n        pthread_mutex_lock(&m2);\n        // ..."
+}\n];\n
