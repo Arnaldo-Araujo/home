@@ -14,77 +14,77 @@ const MODULES = [
         name: 'Módulo 1',
         subtitle: 'Fundamentos da Linguagem C',
         icon: '📘',
-        range: [0, 17]   // Códigos 01–06 + intermediários
+        range: [0, 21]   // Códigos 01–06 + intermediários
     },
     {
         id: 'mod2',
         name: 'Módulo 2',
         subtitle: 'Alocação Dinâmica e Ponteiros',
         icon: '🔗',
-        range: [18, 35]  // Códigos 07–12 + intermediários
+        range: [22, 43]  // Códigos 07–12 + intermediários
     },
     {
         id: 'mod3',
         name: 'Módulo 3',
         subtitle: 'Manipulação de Arquivos',
         icon: '📂',
-        range: [36, 50]  // Códigos 13–17 + intermediários
+        range: [44, 65]  // Códigos 13–17 + intermediários
     },
     {
         id: 'mod4',
         name: 'Módulo 4',
         subtitle: 'Recursão e Algoritmos Básicos',
         icon: '🌳',
-        range: [51, 65]  // Códigos 18–22 + intermediários
+        range: [66, 87]  // Códigos 18–22 + intermediários
     },
     {
         id: 'mod5',
         name: 'Módulo 5',
         subtitle: 'Filas, Pilhas e Listas',
         icon: '📚',
-        range: [66, 69]
+        range: [88, 109]
     },
     {
         id: 'mod6',
         name: 'Módulo 6',
         subtitle: 'Algoritmos de Ordenação',
         icon: '⏱️',
-        range: [70, 72]
+        range: [110, 131]
     },
     {
         id: 'mod7',
         name: 'Módulo 7',
         subtitle: 'Ponteiros Avançados',
         icon: '🎯',
-        range: [73, 75]
+        range: [132, 153]
     },
     {
         id: 'mod8',
         name: 'Módulo 8',
         subtitle: 'Árvores',
         icon: '🌲',
-        range: [76, 77]
+        range: [154, 175]
     },
     {
         id: 'mod9',
         name: 'Módulo 9',
         subtitle: 'Grafos',
         icon: '🕸️',
-        range: [78, 79]
+        range: [176, 197]
     },
     {
         id: 'mod10',
         name: 'Módulo 10',
         subtitle: 'Tabela de Dispersão (Hash)',
         icon: '🏷️',
-        range: [80, 81]
+        range: [198, 219]
     },
     {
         id: 'mod11',
         name: 'Módulo Hard',
         subtitle: 'Sobrevivência & Boss Fights',
         icon: '💀',
-        range: [82, 84]
+        range: [220, 241]
     }
 ];
 
