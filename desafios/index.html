@@ -5,20 +5,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Desafios de Código C</title>
+    <meta name="description" content="Treine sua visão de debugging em C. Encontre e corrija erros em código real.">
     <link rel="stylesheet" href="style.css">
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap"
         rel="stylesheet">
 </head>
 
 <body>
     <div class="background-animation"></div>
 
-    <div class="app-container">
+    <!-- ══════════════════════════════════════════════
+         OVERLAY DE LOGIN (aparece antes do app)
+    ══════════════════════════════════════════════ -->
+    <div id="login-overlay" class="login-overlay" role="dialog" aria-modal="true" aria-label="Identificação do jogador">
+        <div class="login-card glass-panel">
+            <div class="login-logo">
+                <span class="login-logo-icon">⌨️</span>
+                <h1 class="login-title">C Desafios</h1>
+                <p class="login-subtitle">Treine sua visão de debugging</p>
+            </div>
+
+            <div class="login-form">
+                <label for="nick-input" class="login-label">Seu apelido</label>
+                <div class="nick-input-wrapper">
+                    <input
+                        id="nick-input"
+                        type="text"
+                        class="nick-input"
+                        placeholder="EX: CODER"
+                        maxlength="8"
+                        autocomplete="off"
+                        autocorrect="off"
+                        autocapitalize="characters"
+                        spellcheck="false"
+                        aria-describedby="nick-hint nick-error"
+                    >
+                    <span class="nick-counter" id="nick-counter">0/8</span>
+                </div>
+                <p class="nick-hint" id="nick-hint">4 a 8 caracteres · letras, números ou _</p>
+                <p class="nick-error hidden" id="nick-error" role="alert"></p>
+            </div>
+
+            <button id="login-btn" class="btn primary-btn login-btn" disabled>
+                Entrar no Desafio
+            </button>
+
+            <div class="login-footer">
+                <span id="player-count-label" class="player-count-label">Carregando...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         PAINEL DE RANKING (slide-in)
+    ══════════════════════════════════════════════ -->
+    <div id="ranking-panel" class="ranking-panel" role="dialog" aria-label="Ranking de jogadores" aria-hidden="true">
+        <div class="ranking-header">
+            <h2 class="ranking-title">🏆 Ranking</h2>
+            <button id="close-ranking-btn" class="btn icon-btn" aria-label="Fechar ranking">✕</button>
+        </div>
+        <ol id="ranking-list" class="ranking-list">
+            <!-- Items renderizados via JS -->
+        </ol>
+        <div class="ranking-footer" id="ranking-footer"></div>
+    </div>
+    <div id="ranking-backdrop" class="ranking-backdrop hidden"></div>
+
+    <!-- ══════════════════════════════════════════════
+         APP PRINCIPAL
+    ══════════════════════════════════════════════ -->
+    <div class="app-container" id="app-container" aria-hidden="true">
         <aside class="sidebar">
             <div class="sidebar-header">
-                <h2>C Desafios</h2>
+                <div class="sidebar-title-row">
+                    <h2>C Desafios</h2>
+                    <button id="ranking-btn" class="btn icon-btn ranking-open-btn" title="Ver Ranking" aria-label="Abrir ranking">
+                        🏆
+                    </button>
+                </div>
                 <p>Treine sua visão</p>
+                <!-- Badge do jogador atual -->
+                <div id="player-badge" class="player-badge hidden">
+                    <span id="badge-nick" class="badge-nick"></span>
+                    <span id="badge-score" class="badge-score">0 pts</span>
+                </div>
             </div>
             <ul id="exercise-list" class="exercise-list">
                 <!-- Items populated via JS -->
@@ -58,6 +129,7 @@
         </main>
     </div>
 
+    <script src="db.js"></script>
     <script src="exercicios.js"></script>
     <script src="app.js"></script>
 </body>
