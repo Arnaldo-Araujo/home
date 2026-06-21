@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafios de Código C</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="background-animation"></div>
+
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>C Desafios</h2>
+                <p>Treine sua visão</p>
+            </div>
+            <ul id="exercise-list" class="exercise-list">
+                <!-- Items populated via JS -->
+            </ul>
+        </aside>
+
+        <main class="content-area">
+            <header class="topbar">
+                <h1 id="exercise-title">Selecione um desafio</h1>
+            </header>
+
+            <div class="editor-container glass-panel">
+                <div class="instructions">
+                    <p>🕵️‍♂️ <strong>Sua missão:</strong> Encontre e corrija o erro no código abaixo.</p>
+                </div>
+
+                <div class="code-editor-wrapper">
+                    <div class="editor-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                        <span class="filename">main.c</span>
+                    </div>
+                    <textarea id="code-editor" spellcheck="false" placeholder="O código aparecerá aqui..."></textarea>
+                </div>
+
+                <div class="actions">
+                    <button id="verify-btn" class="btn primary-btn">Verificar Resposta</button>
+                    <button id="show-hint-btn" class="btn secondary-btn">Dica</button>
+                    <button id="show-answer-btn" class="btn text-btn">Mostrar Correção</button>
+                </div>
+
+                <div id="feedback-area" class="feedback hidden">
+                    <!-- Feedback messages injected here -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="exercicios.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

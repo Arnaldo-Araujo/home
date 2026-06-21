@@ -1,0 +1,128 @@
+const exercisesData = [
+    {
+        "title": "Código 01: Entrada de dados",
+        "code": "#include <stdio.h>\n\nint main(void) {\n\nint idade;\n\nprintf(\"Digite sua idade: \");\n\nscanf(\"%d\", idade); \n\nprintf(\"Voce tem %d anos.\\n\", idade);\n\nreturn 0;\n\n}",
+        "error_description": "Na função scanf, faltou o operador de endereço & antes da variável idade. O scanf precisa saber o endereço de memória onde deve guardar o valor lido.",
+        "correction": "scanf(\"%d\", &idade);"
+    },
+    {
+        "title": "Código 02: Comentários",
+        "code": "#include <stdio.h>\n\nint main(void) {\n\n/* Imprime uma mensagem de boas-vindas na tela \n\ne finaliza o programa \n\nprintf(\"Bem-vindo a C!\\n\");\n\nreturn 0;\n\n}",
+        "error_description": "O bloco de comentário não foi fechado. Utilizou-se /* para iniciar o comentário de múltiplas linhas, mas esqueceu-se de o fechar com */. O compilador vai ignorar o resto do código.",
+        "correction": "Adicionar */ logo após a palavra \"programa\"."
+    },
+    {
+        "title": "Código 03: Controle de Formato",
+        "code": "#include <stdio.h>\n\nint main(void) {\n\nint numero = 42;\n\nprintf(\"O valor da variavel e d\\n\", numero);\n\nreturn 0;\n\n}",
+        "error_description": "O especificador de formato para um número inteiro é %d. No código, está apenas um d perdido no meio da string, o que fará com que imprima literalmente a letra \"d\".",
+        "correction": "printf(\"O valor da variavel e %d\\n\", numero);"
+    },
+    {
+        "title": "Código 04: Tomada de Decisão",
+        "code": "#include <stdio.h>\n\nint main(void) {\n\nint a = 5;\n\n// Verifica se 'a' é igual a 10\n\nif (a = 10) {\n\nprintf(\"A e igual a 10!\\n\");\n\n} else {\n\nprintf(\"A e diferente de 10!\\n\");\n\n}\n\nreturn 0;\n\n}",
+        "error_description": "Na instrução if (a = 10), está a ser feita uma atribuição (colocar o valor 10 em a) em vez de uma comparação. Como em C qualquer valor diferente de zero é verdadeiro, o bloco if será sempre executado.",
+        "correction": "Usar o operador de igualdade duplo: if (a == 10)"
+    },
+    {
+        "title": "Código 05: Conceitos de Memória e Inicialização",
+        "code": "#include <stdio.h>\n\nint main(void) {\n\nint soma;\n\nint valor = 10;\n\nsoma = soma + valor;\n\nprintf(\"O resultado da soma e: %d\\n\", soma);\n\nreturn 0;\n\n}",
+        "error_description": "A variável soma foi declarada mas nunca inicializada. Em C, isso significa que ela conterá \"lixo de memória\" (um valor aleatório). Ao fazer soma = soma + valor;, o resultado será imprevisível.",
+        "correction": "Inicializar a variável logo na declaração: int soma = 0;"
+    },
+    {
+        "title": "Código 06: Aspas Duplas",
+        "code": "#include <stdio.h>\n\nint main(void) {\n\nprintf(Olá, Mundo da Programacao!\\n);\n\nreturn 0;\n\n}",
+        "error_description": "Textos (strings literais) passados para a função printf precisam obrigatoriamente de estar entre aspas duplas \" \".",
+        "correction": "printf(\"Olá, Mundo da Programacao!\\n\");\n\n\n### Módulo 2: Alocação Dinâmica de Memória e Ponteiros"
+    },
+    {
+        "title": "Código 07: Omissão de tamanho correto",
+        "code": "#include <stdio.h>\n\n#include <stdlib.h>\n\nint main(void) {\n\nint *vetor;\n\n/* Tenta alocar memória para um vetor de 5 números inteiros */\n\nvetor = (int *) malloc(5); \n\nfor(int i = 0; i < 5; i++) {\n\nvetor[i] = i * 10;\n\nprintf(\"%d \", vetor[i]);\n\n}\n\nfree(vetor);\n\nreturn 0;\n\n}",
+        "error_description": "malloc(5) aloca apenas 5 bytes de memória. Um inteiro (int) normalmente ocupa 4 bytes. Ao tentar aceder a vetor[1] em diante, o programa estará a invadir memória não alocada (buffer overflow), causando corrupção ou Segmentation Fault.",
+        "correction": "vetor = (int *) malloc(5 * sizeof(int));"
+    },
+    {
+        "title": "Código 08: Fuga de Memória (Memory Leak)",
+        "code": "#include <stdio.h>\n\n#include <stdlib.h>\n\nvoid criar_e_usar_vetor() {\n\nint *p = (int *) malloc(10 * sizeof(int));\n\np[0] = 100;\n\nprintf(\"O primeiro valor e: %d\\n\", p[0]);\n\n/* A função termina aqui */\n\n}\n\nint main(void) {\n\ncriar_e_usar_vetor();\n\nprintf(\"Fim do programa.\\n\");\n\nreturn 0;\n\n}",
+        "error_description": "A memória é alocada dinamicamente dentro da função criar_e_usar_vetor, mas nunca é libertada com a função free(). Quando a função termina, o ponteiro p desaparece, mas a memória continua ocupada (perdida).",
+        "correction": "Adicionar free(p); antes do final da função criar_e_usar_vetor()."
+    },
+    {
+        "title": "Código 09: Ponteiro Pendente (Dangling Pointer)",
+        "code": "#include <stdio.h>\n\n#include <stdlib.h>\n\nint main(void) {\n\nint *ptr = (int *) malloc(sizeof(int));\n\n*ptr = 50;\n\nprintf(\"Valor original: %d\\n\", *ptr);\n\nfree(ptr); \n\n/* Mais código é executado... e de repente: */\n\n*ptr = 100; \n\nprintf(\"Novo valor: %d\\n\", *ptr);\n\nreturn 0;\n\n}",
+        "error_description": "A memória para a qual ptr aponta foi libertada com free(ptr). No entanto, logo abaixo, o código tenta aceder a esse mesmo endereço desocupado (*ptr = 100;). Isso é um comportamento indefinido grave.",
+        "correction": "Nunca aceder a ponteiros após o free. Uma boa prática é fazer ptr = NULL; logo a seguir à libertação."
+    },
+    {
+        "title": "Código 10: Incompatibilidade de Alocação/Libertação (C++)\n\n```c++\n\n#include <iostream>\n\nint main() {\n\n// Aloca um array de 20 inteiros\n\nint *array = new int[20];\n\nfor(int i = 0; i < 20; i++){\n\narray[i] = i;\n\n}\n\n// Liberta a memória alocada\n\ndelete array; \n\nreturn 0;\n\n}\n\n```\n\nCódigo 11: Falta de verificação de Segurança",
+        "code": "#include <stdio.h>\n\n#include <stdlib.h>\n\nint main(void) {\n\n/* Tentativa de alocar uma quantidade gigantesca de memória */\n\nlong long int tamanho_gigante = 9999999999999999;\n\nint *ptr = (int *) malloc(tamanho_gigante * sizeof(int));\n\n/* Utilização imediata do ponteiro */\n\nptr[0] = 10; \n\nprintf(\"Valor: %d\\n\", ptr[0]);\n\nfree(ptr);\n\nreturn 0;\n\n}",
+        "error_description": "Em C++, quando se aloca um array dinamicamente usando new[], é estritamente necessário libertá-lo usando delete[]. Usar apenas delete array; liberta apenas o primeiro elemento ou causa comportamento anómalo.",
+        "correction": "delete[] array;"
+    },
+    {
+        "title": "Código 12: Tempo de Vida da Variável (Escopo Local)",
+        "code": "#include <stdio.h>\n\nint* obter_numero_magico() {\n\nint numero = 42;\n\nreturn &numero; \n\n}\n\nint main(void) {\n\nint *p = obter_numero_magico();\n\nprintf(\"O numero magico e: %d\\n\", *p);\n\nreturn 0;\n\n}",
+        "error_description": "A função devolve o endereço (&numero) de uma variável local. Quando a função obter_numero_magico termina, a variável numero é destruída. O ponteiro no main aponta agora para uma área de memória inválida.",
+        "correction": "Alocar dinamicamente (malloc) dentro da função ou passar o ponteiro como argumento a partir do main.\n\n\n### Módulo 3: Manipulação de Ficheiros e Registos"
+    },
+    {
+        "title": "Código 13: O ficheiro esquecido",
+        "code": "#include <stdio.h>\n\nint main(void) {\n\nFILE *ficheiro = fopen(\"dados_importantes.txt\", \"w\");\n\nif (ficheiro != NULL) {\n\nfprintf(ficheiro, \"A gravar informações cruciais no ficheiro...\\n\");\n\nprintf(\"Dados gravados com sucesso!\\n\");\n\n/* O programa faz outras coisas e termina */\n\n}\n\nreturn 0;\n\n}",
+        "error_description": "O ficheiro foi aberto com fopen mas nunca foi fechado com fclose. Isto pode impedir que os dados sejam efetivamente gravados no disco, mantendo-os num buffer de memória.",
+        "correction": "Adicionar fclose(ficheiro); antes do final do bloco if."
+    },
+    {
+        "title": "Código 14: Confiança cega",
+        "code": "#include <stdio.h>\n\nint main(void) {\n\nFILE *ficheiro = fopen(\"configuracoes_ocultas.txt\", \"r\");\n\nchar linha[100];\n\n/* Tentativa imediata de ler o ficheiro */\n\nfgets(linha, 100, ficheiro);\n\nprintf(\"A primeira linha lida foi: %s\\n\", linha);\n\nfclose(ficheiro);\n\nreturn 0;\n\n}",
+        "error_description": "O código não verifica se ficheiro é NULL. Se o ficheiro \"configuracoes_ocultas.txt\" não existir no disco, o fopen devolve NULL e a chamada subsequente a fgets irá rebentar com o programa (Segmentation Fault).",
+        "correction": "Embrulhar a leitura com if (ficheiro != NULL) { ... }."
+    },
+    {
+        "title": "Código 15: Conflito de Modos",
+        "code": "#include <stdio.h>\n\nint main(void) {\n\n/* Abre o ficheiro para leitura (\"r\") */\n\nFILE *ficheiro = fopen(\"log_do_sistema.txt\", \"r\"); \n\nif (ficheiro != NULL) {\n\n/* Tenta escrever uma nova entrada no log */\n\nfprintf(ficheiro, \"NOVO REGISTO: O sistema iniciou corretamente.\\n\");\n\nfclose(ficheiro);\n\nprintf(\"Log atualizado.\\n\");\n\n} else {\n\nprintf(\"Erro ao abrir o ficheiro.\\n\");\n\n}\n\nreturn 0;\n\n}",
+        "error_description": "O ficheiro foi aberto explicitamente em modo de leitura \"r\" (read). Contudo, o código tenta escrever nele com fprintf. A gravação vai falhar silenciosamente ou o programa terá um comportamento inesperado.",
+        "correction": "Abrir em modo de adição \"a\" (append) ou escrita \"w\" (write) se a intenção for gravar dados."
+    },
+    {
+        "title": "Código 16: O fantasma do EOF (End of File)",
+        "code": "#include <stdio.h>\n\nint main(void) {\n\nFILE *ficheiro = fopen(\"letras.txt\", \"r\");\n\nchar c;\n\nif (ficheiro != NULL) {\n\n/* Loop para ler até ao fim do ficheiro */\n\nwhile (!feof(ficheiro)) {\n\nc = fgetc(ficheiro);\n\nprintf(\"%c\", c);\n\n}\n\nfclose(ficheiro);\n\n}\n\nreturn 0;\n\n}",
+        "error_description": "A função feof() só devolve verdadeiro depois de uma tentativa de leitura falhar. Isto faz com que o loop leia o último caractere, tente ler novamente, detete o final do ficheiro (EOF), e acabe por imprimir o último caractere duas vezes (ou lixo).",
+        "correction": "Fazer a verificação da leitura diretamente: while ((c = fgetc(ficheiro)) != EOF) { printf(\"%c\", c); }"
+    },
+    {
+        "title": "Código 17: Gravando o endereço em vez do dado (Ficheiros Binários)",
+        "code": "#include <stdio.h>\n\n#include <stdlib.h>\n\n#include <string.h>\n\ntypedef struct {\n\nint id;\n\nchar nome[50];\n\n} RegistoAluno;\n\nint main(void) {\n\nRegistoAluno *aluno = (RegistoAluno *) malloc(sizeof(RegistoAluno));\n\naluno->id = 101;\n\nstrcpy(aluno->nome, \"Maria Silva\");\n\nFILE *ficheiro = fopen(\"alunos.bin\", \"wb\");\n\nif (ficheiro != NULL) {\n\n/* Tenta gravar a estrutura no ficheiro binário */\n\nfwrite(&aluno, sizeof(RegistoAluno), 1, ficheiro);\n\nfclose(ficheiro);\n\nprintf(\"Registo gravado.\\n\");\n\n}\n\nfree(aluno);\n\nreturn 0;\n\n}",
+        "error_description": "A variável aluno já é um ponteiro. Quando se faz fwrite(&aluno, ...), em vez de gravar os dados do aluno (id e nome), está-se a gravar o endereço de memória do ponteiro no ficheiro binário.",
+        "correction": "Remover o &. O correto é: fwrite(aluno, sizeof(RegistoAluno), 1, ficheiro);\n\n\n### Módulo 4: Recursividade e Estruturas de Dados"
+    },
+    {
+        "title": "Código 18: A Recursão Infinita",
+        "code": "#include <stdio.h>\n\n/* Função para calcular o fatorial de um número */\n\nint fatorial(int n) {\n\n/* Tentativa de cálculo recursivo */\n\nreturn n * fatorial(n - 1);\n\n}\n\nint main(void) {\n\nint resultado = fatorial(5);\n\nprintf(\"O fatorial de 5 e: %d\\n\", resultado);\n\nreturn 0;\n\n}",
+        "error_description": "Falta a condição de paragem (caso base). A função fatorial vai chamar-se a si mesma com valores cada vez menores (5, 4, 3, 2, 1, 0, -1...) até a memória Stack estoirar (Stack Overflow).",
+        "correction": "Adicionar um caso base no início da função: if (n <= 1) return 1;"
+    },
+    {
+        "title": "Código 19: O Problema da Troca (Bubble Sort)",
+        "code": "#include <stdio.h>\n\nvoid bubbleSort(int arr[], int n) {\n\nfor (int i = 0; i < n; i++) {\n\n/* O laço interno tenta empurrar o maior elemento para o fim */\n\nfor (int j = 0; j < n; j++) {\n\nif (arr[j] > arr[j + 1]) {\n\nint temp = arr[j];\n\narr[j] = arr[j + 1];\n\narr[j + 1] = temp;\n\n}\n\n}\n\n}\n\n}\n\nint main(void) {\n\nint valores[] = {5, 2, 9, 1, 5};\n\nbubbleSort(valores, 5);\n\nprintf(\"Primeiro valor: %d\\n\", valores[0]);\n\nreturn 0;\n\n}",
+        "error_description": "O laço interior vai de 0 até n-1 (pois j < n). Ao fazer arr[j + 1], quando j for 4 (o último índice válido num array de tamanho 5), ele vai aceder a arr[5], invadindo memória fora dos limites do vetor.",
+        "correction": "O laço interno deve ser for (int j = 0; j < n - 1 - i; j++)."
+    },
+    {
+        "title": "Código 20: A Inserção Fantasma (Árvores Binárias)",
+        "code": "#include <stdio.h>\n\n#include <stdlib.h>\n\ntypedef struct No {\n\nint valor;\n\nstruct No *esq, *dir;\n\n} No;\n\n/* Função para inserir um valor numa Árvore Binária de Busca */\n\nvoid inserir(No *raiz, int valor) {\n\nif (raiz == NULL) {\n\nraiz = (No *) malloc(sizeof(No));\n\nraiz->valor = valor;\n\nraiz->esq = NULL;\n\nraiz->dir = NULL;\n\n} else if (valor < raiz->valor) {\n\ninserir(raiz->esq, valor);\n\n} else {\n\ninserir(raiz->dir, valor);\n\n}\n\n}\n\nint main(void) {\n\nNo *arvore = NULL;\n\ninserir(arvore, 10);\n\ninserir(arvore, 5);\n\nif (arvore != NULL) {\n\nprintf(\"A raiz da arvore e: %d\\n\", arvore->valor);\n\n} else {\n\nprintf(\"A arvore continua vazia!\\n\");\n\n}\n\nreturn 0;\n\n}",
+        "error_description": "A passagem de raiz para a função inserir é feita por valor. A função aloca o nó numa cópia local do ponteiro raiz. Quando a função regressa, a variável arvore no main continua a valer NULL.",
+        "correction": "Passar um ponteiro duplo void inserir(No raiz, int valor) e aceder via *raiz, ou então fazer com que a função devolva o nó atualizado No* inserir(No *raiz, int valor)."
+    },
+    {
+        "title": "Código 21: Busca Binária Presa no Tempo",
+        "code": "#include <stdio.h>\n\nint buscaBinaria(int vetor[], int tamanho, int alvo) {\n\nint inicio = 0;\n\nint fim = tamanho - 1;\n\nwhile (inicio <= fim) {\n\nint meio = (inicio + fim) / 2;\n\nif (vetor[meio] == alvo) {\n\nreturn meio; // Encontrou\n\n}\n\nif (vetor[meio] < alvo) {\n\ninicio = meio; // Ajusta o início\n\n} else {\n\nfim = meio; // Ajusta o fim\n\n}\n\n}\n\nreturn -1; // Não encontrou\n\n}",
+        "error_description": "Se o elemento procurado não existir, o algoritmo pode entrar em loop infinito. Imagine que inicio e fim estão em posições adjacentes. Ao atualizar inicio = meio ou fim = meio, a diferença entre eles pode não diminuir devido ao arredondamento na divisão inteira.",
+        "correction": "Os limites devem encolher passando do meio: inicio = meio + 1; ou fim = meio - 1;"
+    },
+    {
+        "title": "Código 22: O Caos na Tabela de Dispersão (Hash)",
+        "code": "#include <stdio.h>\n\n#define MAX_HASH 100\n\nint tabela_hash[MAX_HASH];\n\n/* Função para gerar o índice e inserir na tabela de dispersão */\n\nvoid inserirHash(int chave_matricula, int valor) {\n\n/* Utiliza a chave diretamente como índice */\n\nint indice = chave_matricula; \n\ntabela_hash[indice] = valor;\n\nprintf(\"Valor inserido com sucesso!\\n\");\n\n}\n\nint main(void) {\n\n/* Matrícula de um aluno (ex: 202610543) */\n\ninserirHash(202610543, 10); \n\nreturn 0;\n\n}",
+        "error_description": "A \"função hash\" está a usar o número de matrícula (ex: 202610543) diretamente como índice do vetor. No entanto, o nosso vetor tabela_hash só tem 100 posições (MAX_HASH). Tentar aceder ao índice 202610543 rebentará a memória do programa.",
+        "correction": "Aplicar uma função de dispersão (hash) matemática limitadora, como o operador de módulo (resto da divisão): int indice = chave_matricula % MAX_HASH;"
+    }
+];
