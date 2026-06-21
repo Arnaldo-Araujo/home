@@ -7,6 +7,38 @@
  *  3. Exercício correto → DB.addScore() → atualiza badge + ranking
  */
 
+// ── Definição dos módulos (índices correspondem ao array exercisesData) ────
+const MODULES = [
+    {
+        id: 'mod1',
+        name: 'Módulo 1',
+        subtitle: 'Fundamentos da Linguagem C',
+        icon: '📘',
+        range: [0, 17]   // Códigos 01–06 + intermediários
+    },
+    {
+        id: 'mod2',
+        name: 'Módulo 2',
+        subtitle: 'Alocação Dinâmica e Ponteiros',
+        icon: '🔗',
+        range: [18, 35]  // Códigos 07–12 + intermediários
+    },
+    {
+        id: 'mod3',
+        name: 'Módulo 3',
+        subtitle: 'Manipulação de Arquivos',
+        icon: '📂',
+        range: [36, 50]  // Códigos 13–17 + intermediários
+    },
+    {
+        id: 'mod4',
+        name: 'Módulo 4',
+        subtitle: 'Recursão e Estruturas de Dados',
+        icon: '🌳',
+        range: [51, 65]  // Códigos 18–22 + intermediários
+    }
+];
+
 // ── Estado global ──────────────────────────────────────────────────────────
 let exercises    = [];
 let currentIndex = 0;
@@ -150,15 +182,101 @@ function renderSidebar(player) {
     exerciseList.innerHTML = '';
     const completedSet = new Set(player ? player.completed : []);
 
-    exercises.forEach((ex, index) => {
-        const li = document.createElement('li');
-        li.className = 'exercise-item';
-        if (completedSet.has(index)) li.classList.add('completed');
-        if (index === currentIndex) li.classList.add('active');
-        li.textContent = ex.title;
-        li.onclick = () => loadExercise(index);
-        exerciseList.appendChild(li);
+    MODULES.forEach(mod => {
+        const [from, to] = mod.range;
+
+        // ── Calcula progresso do módulo ──
+        let doneInModule = 0;
+        const totalInModule = to - from + 1;
+        for (let i = from; i <= to; i++) {
+            if (completedSet.has(i)) doneInModule++;
+        }
+
+        // ── Decide se este módulo começa aberto ──
+        const hasActive = currentIndex >= from && currentIndex <= to;
+        const isOpen = hasActive; // abre o módulo do exercício atual
+
+        // ── Wrapper do módulo ──
+        const wrapper = document.createElement('div');
+        wrapper.className = 'module-section';
+
+        // ── Header do módulo ──
+        const header = document.createElement('div');
+        header.className = 'module-header' + (isOpen ? ' open' : '');
+        header.dataset.modId = mod.id;
+        header.innerHTML = `
+            <span class="module-icon">${mod.icon}</span>
+            <span class="module-label">
+                <span class="module-name">${mod.name}</span>
+                <span class="module-subtitle">${mod.subtitle}</span>
+            </span>
+            <span class="module-progress" id="prog-${mod.id}">${doneInModule}/${totalInModule}</span>
+            <span class="module-arrow">›</span>
+        `;
+        header.addEventListener('click', () => toggleModule(header));
+        wrapper.appendChild(header);
+
+        // ── Lista de exercícios do módulo ──
+        const group = document.createElement('ul');
+        group.className = 'module-group' + (isOpen ? ' open' : '');
+        group.id = `group-${mod.id}`;
+
+        for (let i = from; i <= to; i++) {
+            const ex = exercises[i];
+            const li = document.createElement('li');
+            li.className = 'exercise-item';
+            li.dataset.index = i;
+            if (completedSet.has(i)) li.classList.add('completed');
+            if (i === currentIndex) li.classList.add('active');
+            li.textContent = ex.title;
+            li.addEventListener('click', () => loadExercise(i));
+            group.appendChild(li);
+        }
+
+        wrapper.appendChild(group);
+        exerciseList.appendChild(wrapper);
     });
+}
+
+/** Atualiza o contador de progresso de um módulo na sidebar após pontuar */
+function updateModuleProgress(exerciseIndex) {
+    const mod = MODULES.find(m => exerciseIndex >= m.range[0] && exerciseIndex <= m.range[1]);
+    if (!mod) return;
+    const [from, to] = mod.range;
+    const player = DB.getPlayer(currentNick);
+    if (!player) return;
+    const completedSet = new Set(player.completed);
+    let done = 0;
+    for (let i = from; i <= to; i++) if (completedSet.has(i)) done++;
+    const label = document.getElementById(`prog-${mod.id}`);
+    if (label) label.textContent = `${done}/${to - from + 1}`;
+}
+
+/** Abre/fecha um módulo no accordion */
+function toggleModule(header) {
+    const isOpen = header.classList.contains('open');
+    const groupId = `group-${header.dataset.modId}`;
+    const group = document.getElementById(groupId);
+
+    if (isOpen) {
+        header.classList.remove('open');
+        group.classList.remove('open');
+    } else {
+        header.classList.add('open');
+        group.classList.add('open');
+    }
+}
+
+/** Garante que o módulo do exercício atual esteja aberto */
+function ensureModuleOpen(index) {
+    const mod = MODULES.find(m => index >= m.range[0] && index <= m.range[1]);
+    if (!mod) return;
+    const header = document.querySelector(`.module-header[data-mod-id="${mod.id}"]`);
+    const group  = document.getElementById(`group-${mod.id}`);
+    if (header && !header.classList.contains('open')) {
+        header.classList.add('open');
+        group.classList.add('open');
+    }
 }
 
 function loadExercise(index) {
@@ -169,9 +287,17 @@ function loadExercise(index) {
     codeEditor.value = ex.code;
     hideFeedback();
 
-    document.querySelectorAll('.exercise-item').forEach((el, i) => {
-        el.classList.toggle('active', i === index);
+    // Garante que o módulo correto está aberto
+    ensureModuleOpen(index);
+
+    // Marca apenas o item clicado como ativo
+    document.querySelectorAll('.exercise-item').forEach(el => {
+        el.classList.toggle('active', parseInt(el.dataset.index) === index);
     });
+
+    // Scroll suave para o item ativo na sidebar
+    const activeEl = document.querySelector(`.exercise-item[data-index="${index}"]`);
+    if (activeEl) activeEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -227,7 +353,11 @@ function verifyAnswer() {
             const result = DB.addScore(currentNick, currentIndex);
             if (result.scored) {
                 updateBadge(result.newScore, true);
-                document.querySelectorAll('.exercise-item')[currentIndex].classList.add('completed');
+                updateModuleProgress(currentIndex);
+                document.querySelectorAll('.exercise-item')[currentIndex]?.classList.add('completed');
+                // Marca o item correto via data-index (mais robusto)
+                const el = document.querySelector(`.exercise-item[data-index="${currentIndex}"]`);
+                if (el) el.classList.add('completed');
                 scoreMsg = ` <span style="color:var(--gold-color)">+10 pts!</span>`;
             }
         } else {

@@ -303,15 +303,118 @@ body {
     list-style: none;
     overflow-y: auto;
     flex: 1;
+    padding-bottom: 16px;
 }
 
-.exercise-item {
-    padding: 14px 24px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+/* ── Módulo: seção wrapper ── */
+.module-section {
+    display: block;
+}
+.module-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px;
     cursor: pointer;
-    transition: all 0.2s ease;
-    color: var(--text-secondary);
+    user-select: none;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    transition: background 0.2s;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.module-header:hover {
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.module-header.open {
+    background: rgba(59, 130, 246, 0.08);
+    border-left: 3px solid var(--accent-color);
+}
+
+.module-icon {
+    font-size: 1.15rem;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.module-label {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.module-name {
     font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+}
+
+.module-subtitle {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.module-progress {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    background: rgba(255,255,255,0.06);
+    border-radius: 20px;
+    padding: 2px 7px;
+    flex-shrink: 0;
+    transition: color 0.3s;
+}
+
+.module-header.open .module-progress {
+    color: var(--success-color);
+}
+
+.module-arrow {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.module-header.open .module-arrow {
+    transform: rotate(90deg);
+    color: var(--accent-color);
+}
+
+/* ── Módulo: lista de exercícios (accordion) ── */
+.module-group {
+    list-style: none;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.module-group.open {
+    /* Alto o suficiente para 18 itens (cada um ~46px) */
+    max-height: 860px;
+}
+
+/* ── Item de exercício dentro do grupo ── */
+.exercise-item {
+    padding: 11px 20px 11px 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    line-height: 1.4;
+    position: relative;
 }
 
 .exercise-item:hover {
@@ -320,21 +423,24 @@ body {
 }
 
 .exercise-item.active {
-    background: rgba(59, 130, 246, 0.1);
+    background: rgba(59, 130, 246, 0.14);
     color: var(--text-primary);
-    border-left: 4px solid var(--accent-color);
+    border-left: 3px solid var(--accent-color);
+    padding-left: 37px;
 }
 
 .exercise-item.completed {
-    position: relative;
-    color: var(--success-color);
+    color: rgba(16, 185, 129, 0.8);
 }
 
 .exercise-item.completed::after {
     content: '✓';
     position: absolute;
-    right: 20px;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
     color: var(--success-color);
+    font-size: 0.8rem;
 }
 
 /* ============================================================
