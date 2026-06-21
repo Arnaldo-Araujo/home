@@ -401,8 +401,8 @@ body {
 }
 
 .module-group.open {
-    /* Alto o suficiente para 18 itens (cada um ~46px) */
-    max-height: 860px;
+    /* Alto o suficiente para até 30 itens */
+    max-height: 1500px;
 }
 
 /* ── Item de exercício dentro do grupo ── */
