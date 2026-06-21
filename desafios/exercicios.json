@@ -54,10 +54,16 @@
         "correction": "Nunca aceder a ponteiros após o free. Uma boa prática é fazer ptr = NULL; logo a seguir à libertação."
     },
     {
-        "title": "Código 10: Incompatibilidade de Alocação/Libertação (C++)\n\n```c++\n\n#include <iostream>\n\nint main() {\n\n// Aloca um array de 20 inteiros\n\nint *array = new int[20];\n\nfor(int i = 0; i < 20; i++){\n\narray[i] = i;\n\n}\n\n// Liberta a memória alocada\n\ndelete array; \n\nreturn 0;\n\n}\n\n```\n\nCódigo 11: Falta de verificação de Segurança",
-        "code": "#include <stdio.h>\n\n#include <stdlib.h>\n\nint main(void) {\n\n/* Tentativa de alocar uma quantidade gigantesca de memória */\n\nlong long int tamanho_gigante = 9999999999999999;\n\nint *ptr = (int *) malloc(tamanho_gigante * sizeof(int));\n\n/* Utilização imediata do ponteiro */\n\nptr[0] = 10; \n\nprintf(\"Valor: %d\\n\", ptr[0]);\n\nfree(ptr);\n\nreturn 0;\n\n}",
+        "title": "Código 10: Incompatibilidade de Alocação/Libertação (C++)",
+        "code": "#include <iostream>\n\nint main() {\n\n// Aloca um array de 20 inteiros\n\nint *array = new int[20];\n\nfor(int i = 0; i < 20; i++){\n\narray[i] = i;\n\n}\n\n// Liberta a memória alocada\n\ndelete array; \n\nreturn 0;\n\n}",
         "error_description": "Em C++, quando se aloca um array dinamicamente usando new[], é estritamente necessário libertá-lo usando delete[]. Usar apenas delete array; liberta apenas o primeiro elemento ou causa comportamento anómalo.",
         "correction": "delete[] array;"
+    },
+    {
+        "title": "Código 11: Falta de verificação de Segurança",
+        "code": "#include <stdio.h>\n\n#include <stdlib.h>\n\nint main(void) {\n\n/* Tentativa de alocar uma quantidade gigantesca de memória */\n\nlong long int tamanho_gigante = 9999999999999999;\n\nint *ptr = (int *) malloc(tamanho_gigante * sizeof(int));\n\n/* Utilização imediata do ponteiro */\n\nptr[0] = 10; \n\nprintf(\"Valor: %d\\n\", ptr[0]);\n\nfree(ptr);\n\nreturn 0;\n\n}",
+        "error_description": "O malloc pode falhar ao tentar alocar uma quantidade de memória não suportada, retornando NULL. Aceder a ptr[0] sem verificar se ptr é diferente de NULL causará um Segmentation Fault.",
+        "correction": "Adicionar verificação: if (ptr == NULL) { return 1; }"
     },
     {
         "title": "Código 12: Tempo de Vida da Variável (Escopo Local)",
