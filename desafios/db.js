@@ -32,12 +32,14 @@ const DB = (() => {
         return typeof token === 'string' && token.startsWith('sess_');
     }
 
-    // ─── Leitura / Escrita no Backend ───────────────────────────────────────
+    const LOCAL_KEY = 'cdesafios_db';
+
+    // ─── Leitura / Escrita no Backend (agora no localStorage) ───────────────────
     async function _load() {
         try {
-            const res = await fetch(API_URL);
-            if (!res.ok) throw new Error('Falha ao ler banco');
-            const data = await res.json();
+            const raw = localStorage.getItem(LOCAL_KEY);
+            if (!raw) return { players: {} };
+            const data = JSON.parse(raw);
             if (typeof data !== 'object' || !data.players) return { players: {} };
             return data;
         } catch (e) {
@@ -53,12 +55,7 @@ const DB = (() => {
             return false;
         }
         try {
-            const res = await fetch(API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: serialized
-            });
-            if (!res.ok) throw new Error('Falha ao salvar banco');
+            localStorage.setItem(LOCAL_KEY, serialized);
             return true;
         } catch (e) {
             console.error('[DB] Erro no _save:', e);
@@ -172,12 +169,11 @@ const DB = (() => {
 
     async function getStats() {
         try {
-            const res = await fetch(API_URL);
-            const text = await res.text();
-            const db = JSON.parse(text);
+            const raw = localStorage.getItem(LOCAL_KEY) || '{}';
+            const db = JSON.parse(raw);
             return {
                 players: Object.keys(db.players || {}).length,
-                dbSizeBytes: text.length,
+                dbSizeBytes: raw.length,
                 maxPlayers: MAX_PLAYERS,
                 maxBytes: MAX_DB_BYTES
             };
