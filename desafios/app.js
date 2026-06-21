@@ -109,9 +109,15 @@ nickInput.addEventListener('keydown', (e) => {
 
 loginBtn.addEventListener('click', handleLogin);
 
-function handleLogin() {
+async function handleLogin() {
     const raw = nickInput.value.trim();
-    const result = DB.login(raw);
+    loginBtn.disabled = true;
+    loginBtn.textContent = 'Carregando...';
+
+    const result = await DB.login(raw);
+
+    loginBtn.disabled = false;
+    loginBtn.textContent = 'Entrar no Desafio';
 
     if (!result.ok) {
         nickError.textContent = result.error;
@@ -239,11 +245,11 @@ function renderSidebar(player) {
 }
 
 /** Atualiza o contador de progresso de um módulo na sidebar após pontuar */
-function updateModuleProgress(exerciseIndex) {
+async function updateModuleProgress(exerciseIndex) {
     const mod = MODULES.find(m => exerciseIndex >= m.range[0] && exerciseIndex <= m.range[1]);
     if (!mod) return;
     const [from, to] = mod.range;
-    const player = DB.getPlayer(currentNick);
+    const player = await DB.getPlayer(currentNick);
     if (!player) return;
     const completedSet = new Set(player.completed);
     let done = 0;
@@ -330,7 +336,7 @@ function extractCodeFragments(correctionStr) {
         });
 }
 
-function verifyAnswer() {
+async function verifyAnswer() {
     const ex = exercises[currentIndex];
     const userCode = codeEditor.value;
     const fragments = extractCodeFragments(ex.correction);
@@ -350,10 +356,15 @@ function verifyAnswer() {
         // Tenta pontuar (idempotente — sem nick não pontua)
         let scoreMsg = '';
         if (currentNick) {
-            const result = DB.addScore(currentNick, currentIndex);
+            verifyBtn.disabled = true;
+            verifyBtn.textContent = 'Verificando...';
+            const result = await DB.addScore(currentNick, currentIndex);
+            verifyBtn.disabled = false;
+            verifyBtn.textContent = 'Verificar Código';
+
             if (result.scored) {
                 updateBadge(result.newScore, true);
-                updateModuleProgress(currentIndex);
+                await updateModuleProgress(currentIndex);
                 document.querySelectorAll('.exercise-item')[currentIndex]?.classList.add('completed');
                 // Marca o item correto via data-index (mais robusto)
                 const el = document.querySelector(`.exercise-item[data-index="${currentIndex}"]`);
@@ -361,7 +372,7 @@ function verifyAnswer() {
                 scoreMsg = ` <span style="color:var(--gold-color)">+10 pts!</span>`;
             }
         } else {
-            document.querySelectorAll('.exercise-item')[currentIndex].classList.add('completed');
+            document.querySelectorAll('.exercise-item')[currentIndex]?.classList.add('completed');
         }
         showFeedback(`🎉 <strong>Correto!</strong> Você encontrou e corrigiu o problema!${scoreMsg}`, 'success');
     } else {
@@ -392,12 +403,14 @@ function updateBadge(score, animate = false) {
 //  SEÇÃO 5 — RANKING
 // ═══════════════════════════════════════════════════════════════════════════
 
-function openRanking() {
-    renderRanking();
+async function openRanking() {
     rankingPanel.classList.add('open');
     rankingPanel.removeAttribute('aria-hidden');
     rankingBackdrop.classList.remove('hidden');
     appContainer.classList.add('blurred');
+    
+    rankingList.innerHTML = '<li class="ranking-empty"><span>Carregando ranking...</span></li>';
+    await renderRanking();
 }
 
 function closeRanking() {
@@ -407,9 +420,9 @@ function closeRanking() {
     appContainer.classList.remove('blurred');
 }
 
-function renderRanking() {
-    const list = DB.getRanking();
-    const stats = DB.getStats();
+async function renderRanking() {
+    const list = await DB.getRanking();
+    const stats = await DB.getStats();
 
     rankingList.innerHTML = '';
 
@@ -511,17 +524,27 @@ document.addEventListener('keydown', (e) => {
 //  SEÇÃO 8 — INICIALIZAÇÃO
 // ═══════════════════════════════════════════════════════════════════════════
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    // Foca o campo de nick automaticamente
+    nickInput.focus();
+    playerCountLbl.textContent = 'Conectando ao servidor...';
+
     // Inicializa o banco e o token de sessão
-    DB.init();
+    try {
+        await DB.init();
+    } catch (e) {
+        playerCountLbl.textContent = 'Erro ao conectar ao servidor. Certifique-se de que "node server.js" está rodando.';
+        playerCountLbl.style.color = 'var(--error-color)';
+        loginBtn.disabled = true;
+        return;
+    }
 
     // Exibe contagem de jogadores no rodapé do login
-    const count = DB.getPlayerCount();
-    const max   = DB.getStats().maxPlayers;
+    const count = await DB.getPlayerCount();
+    const stats = await DB.getStats();
+    const max = stats.maxPlayers || 1000;
+    
     playerCountLbl.textContent = count === 0
         ? 'Seja o primeiro a entrar!'
         : `${count} de ${max} vagas ocupadas`;
-
-    // Foca o campo de nick automaticamente
-    nickInput.focus();
 });

@@ -1,32 +1,25 @@
 /**
- * db.js — Motor de banco local para C Desafios
+ * db.js — Motor de banco REST (via Node.js)
  *
  * SEGURANÇA:
  *  - Session token (sessionStorage): valida que a escrita vem da aba ativa
  *  - Max 100 apelidos: evita banco gigante
- *  - Max 100 KB de dados totais no localStorage
+ *  - Max 100 KB de dados totais
  *  - Sanitização de apelido: [a-zA-Z0-9_], 4–8 chars
  *  - Rate-limit de pontuação: 1 ponto por exercício por apelido (idempotente)
- *
- * Chave localStorage: "cdesafios_v1"
- * Chave sessionStorage: "cdesafios_session"
  */
 
 const DB = (() => {
-    const STORAGE_KEY = 'cdesafios_v1';
+    const API_URL = '/api/db';
     const SESSION_KEY = 'cdesafios_session';
-    const MAX_PLAYERS = 1000;     // Limite máximo de apelidos únicos
-    const MAX_DB_BYTES = 102_400; // 100 KB — teto de tamanho do banco
-    const SCORE_PER_EX = 10;      // Pontos por exercício corrigido
+    const MAX_PLAYERS = 1000;
+    const MAX_DB_BYTES = 102_400;
+    const SCORE_PER_EX = 10;
 
     // ─── Token de sessão ────────────────────────────────────────────────────
-    // Gerado uma vez por aba/sessão e armazenado em sessionStorage.
-    // sessionStorage não persiste entre abas ou após fechar o navegador,
-    // então ele autentica que a operação veio do contexto da página ativa.
     function _getOrCreateSessionToken() {
         let token = sessionStorage.getItem(SESSION_KEY);
         if (!token) {
-            // Gera UUID simples sem dependências externas
             token = 'sess_' + Date.now().toString(36) + '_' +
                 Math.random().toString(36).slice(2, 10);
             sessionStorage.setItem(SESSION_KEY, token);
@@ -39,73 +32,63 @@ const DB = (() => {
         return typeof token === 'string' && token.startsWith('sess_');
     }
 
-    // ─── Leitura / Escrita ───────────────────────────────────────────────────
-    function _load() {
+    // ─── Leitura / Escrita no Backend ───────────────────────────────────────
+    async function _load() {
         try {
-            const raw = localStorage.getItem(STORAGE_KEY);
-            if (!raw) return { players: {} };
-            const data = JSON.parse(raw);
-            // Validação mínima de estrutura
+            const res = await fetch(API_URL);
+            if (!res.ok) throw new Error('Falha ao ler banco');
+            const data = await res.json();
             if (typeof data !== 'object' || !data.players) return { players: {} };
             return data;
-        } catch {
+        } catch (e) {
+            console.error('[DB] Erro no _load:', e);
             return { players: {} };
         }
     }
 
-    function _save(db) {
-        // Guarda de tamanho: impede banco maior que 100 KB
+    async function _save(db) {
         const serialized = JSON.stringify(db);
         if (serialized.length > MAX_DB_BYTES) {
             console.warn('[DB] Limite de tamanho atingido. Dados não salvos.');
             return false;
         }
         try {
-            localStorage.setItem(STORAGE_KEY, serialized);
+            const res = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: serialized
+            });
+            if (!res.ok) throw new Error('Falha ao salvar banco');
             return true;
         } catch (e) {
-            console.error('[DB] Erro ao salvar no localStorage:', e);
+            console.error('[DB] Erro no _save:', e);
             return false;
         }
     }
 
     // ─── Sanitização de apelido ──────────────────────────────────────────────
     function _sanitize(nick) {
-        // Remove caracteres não permitidos, força maiúsculas
         return nick.replace(/[^a-zA-Z0-9_]/g, '').toUpperCase().slice(0, 8);
     }
 
     function _isValidNick(nick) {
-        // 4 a 8 caracteres alfanuméricos ou _
         return /^[A-Z0-9_]{4,8}$/.test(nick);
     }
 
     // ─── API Pública ─────────────────────────────────────────────────────────
 
-    /**
-     * Inicializa o banco e o token de sessão.
-     * Deve ser chamado uma vez ao carregar a página.
-     */
-    function init() {
+    async function init() {
         _getOrCreateSessionToken();
-        // Garante que o banco existe
-        const db = _load();
-        _save(db);
+        // Apenas para verificar se o banco está respondendo
+        await _load();
     }
 
-    /**
-     * Tenta fazer login com o apelido.
-     * Cria o jogador se não existir (respeitando o limite de MAX_PLAYERS).
-     *
-     * @returns {{ ok: boolean, player: object|null, isNew: boolean, error: string|null }}
-     */
-    function login(rawNick) {
+    async function login(rawNick) {
         if (!_validateSession()) {
             return { ok: false, player: null, isNew: false, error: 'Sessão inválida.' };
         }
 
         const nick = _sanitize(rawNick);
-
         if (!_isValidNick(nick)) {
             return {
                 ok: false, player: null, isNew: false,
@@ -113,17 +96,17 @@ const DB = (() => {
             };
         }
 
-        const db = _load();
+        const db = await _load();
         const now = Date.now();
 
-        // Jogador já existe → login
+        // Jogador já existe
         if (db.players[nick]) {
             db.players[nick].lastSeen = now;
-            _save(db);
+            await _save(db);
             return { ok: true, player: db.players[nick], nick, isNew: false, error: null };
         }
 
-        // Novo jogador → verificar limite
+        // Novo jogador
         const playerCount = Object.keys(db.players).length;
         if (playerCount >= MAX_PLAYERS) {
             return {
@@ -135,35 +118,28 @@ const DB = (() => {
         // Cria o jogador
         db.players[nick] = {
             score: 0,
-            completed: [],    // índices dos exercícios completados
+            completed: [],
             createdAt: now,
             lastSeen: now
         };
 
-        if (!_save(db)) {
-            return { ok: false, player: null, isNew: false, error: 'Erro ao salvar dados.' };
+        const saved = await _save(db);
+        if (!saved) {
+            return { ok: false, player: null, isNew: false, error: 'Erro ao salvar no servidor.' };
         }
 
         return { ok: true, player: db.players[nick], nick, isNew: true, error: null };
     }
 
-    /**
-     * Adiciona pontuação por exercício completado (idempotente).
-     * Retorna false se o exercício já foi completado antes.
-     *
-     * @param {string} nick - Apelido já validado
-     * @param {number} exerciseIndex - Índice do exercício
-     * @returns {{ ok: boolean, scored: boolean, newScore: number }}
-     */
-    function addScore(nick, exerciseIndex) {
+    async function addScore(nick, exerciseIndex) {
         if (!_validateSession()) return { ok: false, scored: false, newScore: 0 };
 
-        const db = _load();
+        const db = await _load();
         const player = db.players[nick];
 
         if (!player) return { ok: false, scored: false, newScore: 0 };
 
-        // Idempotente: não pontua se já completou este exercício
+        // Idempotente
         if (player.completed.includes(exerciseIndex)) {
             return { ok: true, scored: false, newScore: player.score };
         }
@@ -172,52 +148,42 @@ const DB = (() => {
         player.score += SCORE_PER_EX;
         player.lastSeen = Date.now();
 
-        _save(db);
-
+        await _save(db);
         return { ok: true, scored: true, newScore: player.score };
     }
 
-    /**
-     * Retorna lista de jogadores ordenada por score (decrescente), top 20.
-     * @returns {Array<{ nick, score, completed, lastSeen }>}
-     */
-    function getRanking() {
-        const db = _load();
+    async function getRanking() {
+        const db = await _load();
         return Object.entries(db.players)
             .map(([nick, data]) => ({ nick, ...data }))
             .sort((a, b) => b.score - a.score || a.nick.localeCompare(b.nick))
             .slice(0, 20);
     }
 
-    /**
-     * Retorna os dados de um jogador específico.
-     * @param {string} nick
-     */
-    function getPlayer(nick) {
-        const db = _load();
+    async function getPlayer(nick) {
+        const db = await _load();
         return db.players[nick] || null;
     }
 
-    /**
-     * Retorna o número total de jogadores cadastrados.
-     */
-    function getPlayerCount() {
-        const db = _load();
+    async function getPlayerCount() {
+        const db = await _load();
         return Object.keys(db.players).length;
     }
 
-    /**
-     * Expõe informações de debug (sem dados sensíveis).
-     */
-    function getStats() {
-        const db = _load();
-        const raw = localStorage.getItem(STORAGE_KEY) || '';
-        return {
-            players: Object.keys(db.players).length,
-            dbSizeBytes: raw.length,
-            maxPlayers: MAX_PLAYERS,
-            maxBytes: MAX_DB_BYTES
-        };
+    async function getStats() {
+        try {
+            const res = await fetch(API_URL);
+            const text = await res.text();
+            const db = JSON.parse(text);
+            return {
+                players: Object.keys(db.players || {}).length,
+                dbSizeBytes: text.length,
+                maxPlayers: MAX_PLAYERS,
+                maxBytes: MAX_DB_BYTES
+            };
+        } catch (e) {
+            return { players: 0, dbSizeBytes: 0, maxPlayers: MAX_PLAYERS, maxBytes: MAX_DB_BYTES };
+        }
     }
 
     return { init, login, addScore, getRanking, getPlayer, getPlayerCount, getStats };
