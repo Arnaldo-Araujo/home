@@ -7,7 +7,7 @@
     },
     {
         "title": "Código 02: Comentários",
-        "code": "#include <stdio.h>\n\nint main(void) {\n\n/* Imprime uma mensagem de boas-vindas na tela \n\ne finaliza o programa \n\nprintf(\"Bem-vindo a C!\\n\");\n\nreturn 0;\n\n}",
+        "code": "#include <stdio.h>\n\nint main(void) {\n\n/* Imprime uma mensagem de boas-vindas na tela \n\ne finaliza o programa */\n\nprintf(\"Bem-vindo a C!\\n\");\n\nreturn 0;\n\n}",
         "error_description": "O bloco de comentário não foi fechado. Utilizou-se /* para iniciar o comentário de múltiplas linhas, mas esqueceu-se de o fechar com */. O compilador vai ignorar o resto do código.",
         "correction": "Adicionar */ logo após a palavra \"programa\"."
     },
